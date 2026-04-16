@@ -25,22 +25,13 @@ select,input,textarea{
 .filtro-top{ display:flex; gap:8px; margin-bottom:10px; }
 
 .filtro-top button{
-    flex:1;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    background:#e5e7eb;
-    font-weight:bold;
-    font-size:14px;
-    color:#374151;
-    transition: all 0.2s;
+    flex:1; padding:12px; border:none; border-radius:8px;
+    background:#e5e7eb; font-weight:bold;
 }
 
-/* ATIVO DE VERDADE */
 .filtro-top button.ativo{
     background:#1e3a8a;
     color:white;
-    box-shadow:0 4px 10px rgba(0,0,0,0.25);
     transform:scale(1.05);
 }
 
@@ -49,14 +40,8 @@ select,input,textarea{
 .item{ background:white; margin:6px 10px; padding:10px; border-radius:8px; }
 .item.ativo{ background:#d1fae5; }
 
-.linha{ display:flex; justify-content:space-between; gap:10px; }
-.desc{ flex:1; }
-
-.controls{ display:flex; align-items:center; gap:5px; }
-.controls button{
-    width:38px; height:38px; border:none; color:white;
-    font-size:18px; border-radius:6px;
-}
+.linha{ display:flex; justify-content:space-between; }
+.controls button{ width:35px; height:35px; border:none; color:white; border-radius:6px;}
 .btn-plus{ background:#2563eb; }
 .btn-minus{ background:#dc2626; }
 
@@ -85,18 +70,19 @@ display:flex; gap:10px; margin-top:15px;
 }
 
 .modal-actions button{
-flex:1; padding:12px; border:none; color:white; font-size:16px;
+flex:1; padding:12px; border:none; color:white;
 }
 
 .btn-cancel{ background:#6b7280; }
 .btn-confirm{ background:#16a34a; }
+
 </style>
 </head>
 
 <body>
 
 <div class="topo-logo">
-    <img src="logo2.png">
+<img src="logo2.png">
 </div>
 
 <div class="topo">
@@ -107,8 +93,8 @@ flex:1; padding:12px; border:none; color:white; font-size:16px;
 <div class="resumo" id="resumo">Itens: 0</div>
 
 <div class="filtro-top">
-    <button id="btnTodos" class="ativo">Todos</button>
-    <button id="btnSelecionados">Selecionados</button>
+<button id="btnTodos" class="ativo">Todos</button>
+<button id="btnSelecionados">Selecionados</button>
 </div>
 </div>
 
@@ -140,14 +126,13 @@ render();
 }
 
 function atualizarBotoes(){
-document.getElementById("btnTodos").classList.toggle("ativo", modoFiltro==="todos");
-document.getElementById("btnSelecionados").classList.toggle("ativo", modoFiltro==="selecionados");
+btnTodos.classList.toggle("ativo", modoFiltro==="todos");
+btnSelecionados.classList.toggle("ativo", modoFiltro==="selecionados");
 }
 
 function render(){
-let busca=document.getElementById("busca").value.toLowerCase();
-let div=document.getElementById("produtos");
-div.innerHTML="";
+let busca=buscaInput.value.toLowerCase();
+produtosDiv.innerHTML="";
 let cat="", total=0;
 
 produtos.forEach(p=>{
@@ -158,21 +143,19 @@ if(modoFiltro==="selecionados" && q==0) return;
 
 if(p.categoria!==cat){
 cat=p.categoria;
-div.innerHTML+=`<div class="categoria">${cat}</div>`;
+produtosDiv.innerHTML+=`<div class="categoria">${cat}</div>`;
 }
 
 if(q>0) total+=q;
 
-div.innerHTML+=`
+produtosDiv.innerHTML+=`
 <div class="item ${q>0?'ativo':''}" onclick="mais('${p.codigo}')">
 <div class="linha">
-<div class="desc">${p.codigo} - ${p.descricao}</div>
+<span>${p.codigo} - ${p.descricao}</span>
 <div class="controls" onclick="event.stopPropagation()">
 <button class="btn-minus"
 onmousedown="startHold('${p.codigo}')"
-ontouchstart="startHold('${p.codigo}')"
 onmouseup="stopHold()"
-ontouchend="stopHold()"
 onclick="menos('${p.codigo}')">-</button>
 ${q}
 <button class="btn-plus" onclick="mais('${p.codigo}')">+</button>
@@ -181,39 +164,102 @@ ${q}
 </div>`;
 });
 
-document.getElementById("resumo").innerText=
-"Itens: "+Object.keys(qtds).filter(k=>qtds[k]>0).length+" | Volumes: "+total;
+resumo.innerText="Itens: "+Object.keys(qtds).filter(k=>qtds[k]>0).length+" | Volumes: "+total;
 }
 
 function startHold(c){
 holdTimer=setTimeout(()=>{qtds[c]=0; salvar();},600);
 }
-
-function stopHold(){ clearTimeout(holdTimer); }
+function stopHold(){clearTimeout(holdTimer);}
 
 function mais(c){ qtds[c]=(qtds[c]||0)+1; salvar();}
 function menos(c){ if(qtds[c]>0) qtds[c]--; salvar();}
 function salvar(){ localStorage.setItem("qtd",JSON.stringify(qtds)); render();}
 function limpar(){ qtds={}; localStorage.clear(); render(); }
 
-function abrirPainel(){
-if(!document.getElementById("loja").value){ alert("Selecione loja"); return;}
-alert("Painel OK");
+function gerarNumero(){
+const d=new Date();
+return "RR"+d.getDate()+(""+(d.getMonth()+1)).padStart(2,'0')+d.getFullYear().toString().slice(2)+"-"+d.getHours()+d.getMinutes();
 }
 
-document.getElementById("btnTodos").onclick=()=>{
-modoFiltro="todos";
-atualizarBotoes();
-render();
-};
+function montar(){
+const loja=lojaSelect.value;
+const extra=extraInput.value;
 
-document.getElementById("btnSelecionados").onclick=()=>{
-modoFiltro="selecionados";
-atualizarBotoes();
-render();
-};
+let msg="*Pedido* Nº: "+gerarNumero()+"\n";
+msg+="Loja: "+loja+"\n\n*Itens*\n";
 
-document.getElementById("busca").addEventListener("input", render);
+let total=0;
+
+produtos.forEach(p=>{
+if(qtds[p.codigo]>0){
+total++;
+msg+=`${p.codigo} - ${p.descricao} = ${qtds[p.codigo]} ${p.embalagem}\n`;
+}
+});
+
+if(extra){
+msg+="\n*OBSERVAÇÕES OU FALTAS*\n"+extra+"\n";
+}
+
+msg+="\nTOTAL: "+total;
+
+return msg;
+}
+
+function abrirPainel(){
+
+if(!lojaSelect.value){
+alert("Selecione loja");
+return;
+}
+
+let html="<h3>Conferência</h3>";
+
+let i=0;
+produtos.forEach(p=>{
+if(qtds[p.codigo]>0){
+let classe=i%2==0?"linha-par":"linha-impar";
+html+=`<div class="${classe}">${p.codigo} - ${p.descricao} = ${qtds[p.codigo]}</div>`;
+i++;
+}
+});
+
+html+=`
+<div class="modal-actions">
+<button class="btn-cancel" onclick="fecharModal()">Voltar</button>
+<button class="btn-confirm" onclick="enviar()">Confirmar</button>
+</div>
+`;
+
+conteudoModal.innerHTML=html;
+modal.style.display="flex";
+}
+
+function fecharModal(){
+modal.style.display="none";
+}
+
+function enviar(){
+let msg=montar();
+window.open("https://wa.me/5515997094000?text="+encodeURIComponent(msg));
+fecharModal();
+}
+
+btnTodos.onclick=()=>{modoFiltro="todos"; atualizarBotoes(); render();}
+btnSelecionados.onclick=()=>{modoFiltro="selecionados"; atualizarBotoes(); render();}
+
+buscaInput.oninput=render;
+
+const lojaSelect=document.getElementById("loja");
+const buscaInput=document.getElementById("busca");
+const extraInput=document.getElementById("extra");
+const produtosDiv=document.getElementById("produtos");
+const resumo=document.getElementById("resumo");
+const modal=document.getElementById("modal");
+const conteudoModal=document.getElementById("conteudoModal");
+const btnTodos=document.getElementById("btnTodos");
+const btnSelecionados=document.getElementById("btnSelecionados");
 
 carregar();
 
