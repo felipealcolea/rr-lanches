@@ -7,125 +7,38 @@
 
 <style>
 body { font-family: Arial; margin:0; background:#f3f4f6; padding-bottom:140px; }
-
-/* LOGO TOPO */
-.topo-logo{
-    background:white;
-    padding:10px;
-    text-align:center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-.topo-logo img{
-    max-width:90%;
-    max-height:120px;
-    height:auto;
-}
-
-/* BLOCO TOPO */
-.topo{
-    padding:10px;
-    background:white;
-    position:sticky;
-    top:0;
-    z-index:10;
-}
-
-select,input,textarea{
-    width:100%;
-    padding:10px;
-    margin-bottom:8px;
-    border-radius:6px;
-    border:1px solid #ccc;
-}
-
-.resumo{
-    background:#111827;
-    color:white;
-    padding:8px;
-    border-radius:6px;
-    font-size:14px;
-    text-align:center;
-    margin-bottom:8px;
-}
-
-.categoria{
-    padding:8px 10px;
-    font-weight:bold;
-    color:#1e3a8a;
-}
-
-.item{
-    background:white;
-    margin:6px 10px;
-    padding:10px;
-    border-radius:8px;
-}
-
+.topo-logo{ background:white; padding:10px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.topo-logo img{ max-width:90%; max-height:120px; }
+.topo{ padding:10px; background:white; position:sticky; top:0; z-index:10; }
+select,input,textarea{ width:100%; padding:10px; margin-bottom:8px; border-radius:6px; border:1px solid #ccc; }
+.resumo{ background:#111827; color:white; padding:8px; border-radius:6px; font-size:14px; text-align:center; margin-bottom:8px; }
+.filtro-top{ display:flex; gap:8px; margin-bottom:10px; }
+.filtro-top button{ flex:1; padding:10px; border:none; border-radius:6px; background:#e5e7eb; font-weight:bold; color:#374151; }
+.filtro-top button.ativo{ background:#1e3a8a; color:white; }
+.categoria{ padding:8px 10px; font-weight:bold; color:#1e3a8a; }
+.item{ background:white; margin:6px 10px; padding:10px; border-radius:8px; }
 .item.ativo{ background:#d1fae5; }
-
-.linha{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-}
-
+.linha{ display:flex; justify-content:space-between; gap:10px; }
 .desc{ flex:1; font-size:14px; }
-
-.controls{
-    display:flex;
-    align-items:center;
-    gap:5px;
-}
-
-.controls button{
-    width:38px;
-    height:38px;
-    border:none;
-    color:white;
-    font-size:18px;
-    border-radius:6px;
-}
-
+.controls{ display:flex; align-items:center; gap:5px; }
+.controls button{ width:38px; height:38px; border:none; color:white; font-size:18px; border-radius:6px; }
 .btn-plus{ background:#2563eb; }
 .btn-minus{ background:#dc2626; }
-
 .qtd{ min-width:20px; text-align:center; }
-
-.botoes{
-    position:fixed;
-    bottom:0;
-    width:100%;
-    display:flex;
-}
-
-.botoes button{
-    flex:1;
-    padding:15px;
-    border:none;
-    color:white;
-    font-size:16px;
-}
-
+.botoes{ position:fixed; bottom:0; width:100%; display:flex; }
+.botoes button{ flex:1; padding:15px; border:none; color:white; font-size:16px; }
 .enviar{ background:#16a34a; }
 .limpar{ background:#374151; }
-
 .eye{ margin-left:5px; cursor:pointer; opacity:.5;}
 .eye:hover{opacity:1;}
-
-.logo{
-    position:fixed;
-    bottom:80px;
-    right:10px;
-    width:70px;
-    opacity:.1;
-}
+.logo{ position:fixed; bottom:80px; right:10px; width:70px; opacity:.1;}
 </style>
 </head>
 
 <body>
 
 <div class="topo-logo">
-    <img src="logo2.png" alt="RR Lanches Parceria FBF">
+    <img src="logo2.png">
 </div>
 
 <div class="topo">
@@ -134,6 +47,11 @@ select,input,textarea{
 <textarea id="extra" placeholder="Itens não encontrados"></textarea>
 
 <div class="resumo" id="resumo">Itens: 0</div>
+
+<div class="filtro-top">
+    <button id="btnTodos" class="ativo">Todos</button>
+    <button id="btnSelecionados">Selecionados</button>
+</div>
 </div>
 
 <div id="produtos"></div>
@@ -148,6 +66,7 @@ select,input,textarea{
 <script>
 
 let produtos=[], lojas=[], qtds={};
+let modoFiltro="todos";
 
 async function carregar(){
 produtos=await fetch("produtos.json").then(r=>r.json());
@@ -168,16 +87,19 @@ let div=document.getElementById("produtos");
 div.innerHTML="";
 
 let cat="", total=0;
+let somenteSelecionados = modoFiltro==="selecionados";
 
 produtos.forEach(p=>{
+let q=qtds[p.codigo]||0;
+
 if(!p.descricao.toLowerCase().includes(busca) && !p.codigo.includes(busca)) return;
+if(somenteSelecionados && q==0) return;
 
 if(p.categoria!==cat){
 cat=p.categoria;
 div.innerHTML+=`<div class="categoria">${cat}</div>`;
 }
 
-let q=qtds[p.codigo]||0;
 if(q>0) total+=q;
 
 let eye=p.link?`<span class="eye" onclick="abrir('${p.link}')">👁</span>`:"";
@@ -198,7 +120,8 @@ onclick="menos('${p.codigo}')">-</button>
 </div>`;
 });
 
-document.getElementById("resumo").innerText="Itens: "+Object.keys(qtds).filter(k=>qtds[k]>0).length+" | Volumes: "+total;
+document.getElementById("resumo").innerText=
+"Itens: "+Object.keys(qtds).filter(k=>qtds[k]>0).length+" | Volumes: "+total;
 }
 
 function mais(c){ qtds[c]=(qtds[c]||0)+1; salvar();}
@@ -253,6 +176,19 @@ if(confirm(msg)) window.open("https://wa.me/5515997094000?text="+encodeURICompon
 }
 
 document.getElementById("busca").addEventListener("input",render);
+
+document.getElementById("btnTodos").onclick=()=>{
+modoFiltro="todos"; atualizarBotoes(); render();
+};
+
+document.getElementById("btnSelecionados").onclick=()=>{
+modoFiltro="selecionados"; atualizarBotoes(); render();
+};
+
+function atualizarBotoes(){
+document.getElementById("btnTodos").classList.toggle("ativo", modoFiltro==="todos");
+document.getElementById("btnSelecionados").classList.toggle("ativo", modoFiltro==="selecionados");
+}
 
 carregar();
 
