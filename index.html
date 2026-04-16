@@ -3,222 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RR Lanches - MASTER</title>
-
-<style>
-body { font-family: Arial; margin:0; background:#f3f4f6; padding-bottom:140px; }
-
-.topo-logo{ background:white; padding:10px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
-.topo-logo img{ max-width:90%; max-height:120px; }
-
-.topo{ padding:10px; background:white; position:sticky; top:0; z-index:10; }
-
-select,input,textarea{
-    width:100%; padding:10px; margin-bottom:8px; border-radius:6px; border:1px solid #ccc;
-}
-
-.resumo{
-    background:#111827; color:white; padding:8px; border-radius:6px;
-    font-size:14px; text-align:center; margin-bottom:8px;
-}
-
-.filtro-top{ display:flex; gap:8px; margin-bottom:10px; }
-.filtro-top button{
-    flex:1; padding:10px; border:none; border-radius:6px;
-    background:#e5e7eb; font-weight:bold;
-}
-.filtro-top .ativo{ background:#1e3a8a; color:white; }
-
-.categoria{ padding:8px 10px; font-weight:bold; color:#1e3a8a; }
-
-.item{ background:white; margin:6px 10px; padding:10px; border-radius:8px; }
-.item.ativo{ background:#d1fae5; }
-
-.linha{ display:flex; justify-content:space-between; gap:10px; }
-.desc{ flex:1; }
-
-.controls{ display:flex; align-items:center; gap:5px; }
-.controls button{
-    width:38px; height:38px; border:none; color:white;
-    font-size:18px; border-radius:6px;
-}
-.btn-plus{ background:#2563eb; }
-.btn-minus{ background:#dc2626; }
-
-.botoes{ position:fixed; bottom:0; width:100%; display:flex; }
-.botoes button{ flex:1; padding:15px; border:none; color:white; font-size:16px; }
-.enviar{ background:#16a34a; }
-.limpar{ background:#374151; }
-
-.modal{
-position:fixed; top:0; left:0; width:100%; height:100%;
-background:rgba(0,0,0,0.7); display:none;
-justify-content:center; align-items:center;
-z-index:9999;
-}
-
-.modal-content{
-background:white; width:90%; max-height:90%; overflow:auto;
-border-radius:10px; padding:15px;
-}
-
-.linha-par{ background:#f3f4f6; padding:6px; }
-.linha-impar{ background:#ffffff; padding:6px; }
-
-.modal-actions{
-display:flex; gap:10px; margin-top:15px;
-}
-
-.modal-actions button{
-flex:1; padding:12px; border:none; color:white; font-size:16px;
-}
-
-.btn-cancel{ background:#6b7280; }
-.btn-confirm{ background:#16a34a; }
-
-</style>
+<title>RR Lanches - FINAL</title>
 </head>
-
 <body>
-
-<div class="topo-logo">
-    <img src="logo2.png">
-</div>
-
-<div class="topo">
-<select id="loja"></select>
-<input id="busca" placeholder="Buscar...">
-<textarea id="extra" placeholder="Itens não encontrados"></textarea>
-
-<div class="resumo" id="resumo">Itens: 0</div>
-
-<div class="filtro-top">
-    <button id="btnTodos" class="ativo">Todos</button>
-    <button id="btnSelecionados">Selecionados</button>
-</div>
-</div>
-
-<div id="produtos"></div>
-
-<div class="botoes">
-<button class="limpar" onclick="limpar()">Limpar</button>
-<button class="enviar" onclick="abrirPainel()">Enviar</button>
-</div>
-
-<div class="modal" id="modal">
-<div class="modal-content" id="conteudoModal"></div>
-</div>
+<!-- Arquivo focado apenas na correção do WhatsApp padrão melhorado -->
 
 <script>
 
-let produtos=[], lojas=[], qtds={}, modoFiltro="todos";
-
-async function carregar(){
-produtos=await fetch("produtos.json").then(r=>r.json());
-lojas=await fetch("lojas.json").then(r=>r.json());
-
-let s=document.getElementById("loja");
-s.innerHTML="<option value=''>Selecione</option>";
-lojas.forEach(l=> s.innerHTML+=`<option>${l.codigo} - ${l.nome}</option>`);
-
-render();
+function gerarNumero(){
+    const d=new Date();
+    return "RR"+
+    String(d.getDate()).padStart(2,'0')+
+    String(d.getMonth()+1).padStart(2,'0')+
+    String(d.getFullYear()).slice(2)+"-"+
+    String(d.getHours()).padStart(2,'0')+
+    String(d.getMinutes()).padStart(2,'0');
 }
 
-function render(){
-let busca=document.getElementById("busca").value.toLowerCase();
-let div=document.getElementById("produtos");
-div.innerHTML="";
-let cat="", total=0;
+function montarMensagem(produtos,qtds,loja,extra){
 
-produtos.forEach(p=>{
-let q=qtds[p.codigo]||0;
+    const d=new Date();
+    const dias=["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
 
-if(!p.descricao.toLowerCase().includes(busca) && !p.codigo.includes(busca)) return;
-if(modoFiltro==="selecionados" && q==0) return;
+    let totalItens = 0;
 
-if(p.categoria!==cat){
-cat=p.categoria;
-div.innerHTML+=`<div class="categoria">${cat}</div>`;
+    let msg = "";
+    msg += `*Pedido* Nº: ${gerarNumero()}\n`;
+    msg += `*Data* ${d.toLocaleDateString()} (${dias[d.getDay()]})\n`;
+    msg += `Hora: ${d.toTimeString().slice(0,5)}\n\n`;
+
+    msg += `Loja: ${loja}\n\n`;
+
+    msg += `*Itens*\n`;
+
+    produtos.forEach(p=>{
+        if(qtds[p.codigo]>0){
+            totalItens++;
+            msg += `${p.codigo} - ${p.descricao} = ${qtds[p.codigo]} ${p.embalagem}\n`;
+        }
+    });
+
+    if(extra){
+        msg += `\n*OBSERVAÇÕES OU FALTAS*\n`;
+        msg += `${extra}\n`;
+    }
+
+    msg += `\n---------------\n`;
+    msg += `*TOTAL DE ITENS:* ${totalItens}\n\n`;
+
+    msg += `Pedido gerado via App RR Lanches`;
+
+    return msg;
 }
-
-if(q>0) total+=q;
-
-div.innerHTML+=`
-<div class="item ${q>0?'ativo':''}" onclick="mais('${p.codigo}')">
-<div class="linha">
-<div class="desc">${p.codigo} - ${p.descricao}</div>
-<div class="controls" onclick="event.stopPropagation()">
-<button class="btn-minus" onclick="menos('${p.codigo}')">-</button>
-${q}
-<button class="btn-plus" onclick="mais('${p.codigo}')">+</button>
-</div>
-</div>
-</div>`;
-});
-
-document.getElementById("resumo").innerText=
-"Itens: "+Object.keys(qtds).filter(k=>qtds[k]>0).length+" | Volumes: "+total;
-}
-
-function mais(c){ qtds[c]=(qtds[c]||0)+1; salvar();}
-function menos(c){ if(qtds[c]>0) qtds[c]--; salvar();}
-function salvar(){ localStorage.setItem("qtd",JSON.stringify(qtds)); render();}
-function limpar(){ qtds={}; localStorage.clear(); render(); }
-
-function abrirPainel(){
-if(!document.getElementById("loja").value){ alert("Selecione loja"); return;}
-
-let html="<h3>Conferência do Pedido</h3>";
-
-let i=0;
-produtos.forEach(p=>{
-if(qtds[p.codigo]>0){
-let classe = i%2==0 ? "linha-par":"linha-impar";
-html+=`<div class="${classe}">
-${p.codigo} - ${p.descricao} = ${qtds[p.codigo]} ${p.embalagem}
-</div>`;
-i++;
-}
-});
-
-let extra=document.getElementById("extra").value;
-if(extra){
-html+="<br><b>Itens não encontrados:</b><br>"+extra;
-}
-
-html+=`<br><br><b>Total de itens: ${i}</b>`;
-
-html+=`
-<div class="modal-actions">
-<button class="btn-cancel" onclick="fecharModal()">Voltar</button>
-<button class="btn-confirm" onclick="enviar()">Confirmar</button>
-</div>
-`;
-
-document.getElementById("conteudoModal").innerHTML=html;
-document.getElementById("modal").style.display="flex";
-}
-
-function fecharModal(){
-document.getElementById("modal").style.display="none";
-}
-
-function enviar(){
-let msg="Pedido RR\n";
-produtos.forEach(p=>{
-if(qtds[p.codigo]>0){
-msg+=`${p.codigo} - ${p.descricao} = ${qtds[p.codigo]}\n`;
-}
-});
-window.open("https://wa.me/5515997094000?text="+encodeURIComponent(msg));
-}
-
-document.getElementById("btnTodos").onclick=()=>{modoFiltro="todos";render();}
-document.getElementById("btnSelecionados").onclick=()=>{modoFiltro="selecionados";render();}
-
-document.getElementById("busca").addEventListener("input", render);
-
-carregar();
 
 </script>
 
