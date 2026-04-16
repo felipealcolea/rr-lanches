@@ -1,10 +1,30 @@
 [
   {
-    "codigo": "0072",
-    "nome": "RR MATRIZ"
+    "codigo": "114",
+    "nome": "PADRE MADUREIRA"
   },
   {
-    "codigo": "1719",
-    "nome": "RR FILIAL"
+    "codigo": "2526",
+    "nome": "ZONA NORTE"
+  },
+  {
+    "codigo": "2527",
+    "nome": "ARMANDO PANUNZIO"
+  },
+  {
+    "codigo": "2528",
+    "nome": "LOJA EDEN"
+  },
+  {
+    "codigo": "3466",
+    "nome": "VOTORANTIM (CADI)"
+  },
+  {
+    "codigo": "4108",
+    "nome": "LOJA ITU (CADI)"
+  },
+  {
+    "codigo": "4115",
+    "nome": "INDAIATUBA"
   }
 ]
