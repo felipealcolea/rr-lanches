@@ -3,265 +3,149 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RR Lanches - FINAL</title>
+<title>RR Lanches - FINAL OK</title>
 
 <style>
-body { font-family: Arial; margin:0; background:#f3f4f6; padding-bottom:140px; }
+body{font-family:Arial;margin:0;background:#f3f4f6;padding-bottom:120px;}
 
-.topo-logo{ background:white; padding:10px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
-.topo-logo img{ max-width:90%; max-height:120px; }
+.topo{padding:10px;background:#fff;position:sticky;top:0;}
+select,input,textarea{width:100%;padding:10px;margin-bottom:8px;border-radius:6px;border:1px solid #ccc;}
 
-.topo{ padding:10px; background:white; position:sticky; top:0; z-index:10; }
+.resumo{background:#111827;color:#fff;padding:8px;border-radius:6px;text-align:center;margin-bottom:8px;}
 
-select,input,textarea{
-    width:100%; padding:10px; margin-bottom:8px; border-radius:6px; border:1px solid #ccc;
-}
+.filtro{display:flex;gap:8px;margin-bottom:10px;}
+.filtro button{flex:1;padding:10px;border:none;border-radius:6px;background:#ddd;}
+.filtro .ativo{background:#1e3a8a;color:#fff;}
 
-.resumo{
-    background:#111827; color:white; padding:8px; border-radius:6px;
-    font-size:14px; text-align:center; margin-bottom:8px;
-}
+.item{background:#fff;margin:6px;padding:10px;border-radius:8px;display:flex;justify-content:space-between;}
+.item.ativo{background:#d1fae5;}
 
-.filtro-top{ display:flex; gap:8px; margin-bottom:10px; }
+.controls button{width:35px;height:35px;border:none;color:#fff;border-radius:6px;}
+.btn-plus{background:#2563eb;}
+.btn-minus{background:#dc2626;}
 
-.filtro-top button{
-    flex:1; padding:12px; border:none; border-radius:8px;
-    background:#e5e7eb; font-weight:bold;
-}
+.botoes{position:fixed;bottom:0;width:100%;display:flex;}
+.botoes button{flex:1;padding:15px;border:none;color:#fff;}
+.enviar{background:#16a34a;}
+.limpar{background:#374151;}
 
-.filtro-top button.ativo{
-    background:#1e3a8a;
-    color:white;
-    transform:scale(1.05);
-}
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;display:none;background:rgba(0,0,0,0.7);justify-content:center;align-items:center;}
+.modal-box{background:#fff;width:90%;max-height:90%;overflow:auto;padding:15px;border-radius:10px;}
 
-.categoria{ padding:8px 10px; font-weight:bold; color:#1e3a8a; }
-
-.item{ background:white; margin:6px 10px; padding:10px; border-radius:8px; }
-.item.ativo{ background:#d1fae5; }
-
-.linha{ display:flex; justify-content:space-between; }
-.controls button{ width:35px; height:35px; border:none; color:white; border-radius:6px;}
-.btn-plus{ background:#2563eb; }
-.btn-minus{ background:#dc2626; }
-
-.botoes{ position:fixed; bottom:0; width:100%; display:flex; }
-.botoes button{ flex:1; padding:15px; border:none; color:white; font-size:16px; }
-.enviar{ background:#16a34a; }
-.limpar{ background:#374151; }
-
-.modal{
-position:fixed; top:0; left:0; width:100%; height:100%;
-background:rgba(0,0,0,0.7); display:none;
-justify-content:center; align-items:center;
-z-index:9999;
-}
-
-.modal-content{
-background:white; width:90%; max-height:90%; overflow:auto;
-border-radius:10px; padding:15px;
-}
-
-.linha-par{ background:#f3f4f6; padding:6px; }
-.linha-impar{ background:#ffffff; padding:6px; }
-
-.modal-actions{
-display:flex; gap:10px; margin-top:15px;
-}
-
-.modal-actions button{
-flex:1; padding:12px; border:none; color:white;
-}
-
-.btn-cancel{ background:#6b7280; }
-.btn-confirm{ background:#16a34a; }
+.linha-par{background:#f3f4f6;padding:6px;}
+.linha-impar{background:#fff;padding:6px;}
 
 </style>
 </head>
 
 <body>
 
-<div class="topo-logo">
-<img src="logo2.png">
-</div>
-
 <div class="topo">
 <select id="loja"></select>
-<input id="busca" placeholder="Buscar...">
+<input id="busca" placeholder="Buscar">
 <textarea id="extra" placeholder="Observações ou faltas"></textarea>
 
 <div class="resumo" id="resumo">Itens: 0</div>
 
-<div class="filtro-top">
-<button id="btnTodos" class="ativo">Todos</button>
-<button id="btnSelecionados">Selecionados</button>
+<div class="filtro">
+<button id="todos" class="ativo">Todos</button>
+<button id="sel">Selecionados</button>
 </div>
 </div>
 
-<div id="produtos"></div>
+<div id="lista"></div>
 
 <div class="botoes">
 <button class="limpar" onclick="limpar()">Limpar</button>
-<button class="enviar" onclick="abrirPainel()">Enviar</button>
+<button class="enviar" onclick="abrir()">Enviar</button>
 </div>
 
 <div class="modal" id="modal">
-<div class="modal-content" id="conteudoModal"></div>
+<div class="modal-box" id="box"></div>
 </div>
 
 <script>
 
-let produtos=[], lojas=[], qtds={}, modoFiltro="todos";
-let holdTimer=null;
+let produtos=[],lojas=[],qtd={},modo="todos";
 
-async function carregar(){
+async function init(){
 produtos=await fetch("produtos.json").then(r=>r.json());
 lojas=await fetch("lojas.json").then(r=>r.json());
 
-let s=document.getElementById("loja");
-s.innerHTML="<option value=''>Selecione</option>";
-lojas.forEach(l=> s.innerHTML+=`<option>${l.codigo} - ${l.nome}</option>`);
+loja.innerHTML="<option>Selecione</option>";
+lojas.forEach(l=>loja.innerHTML+=`<option>${l.codigo} - ${l.nome}</option>`);
 
 render();
 }
 
-function atualizarBotoes(){
-btnTodos.classList.toggle("ativo", modoFiltro==="todos");
-btnSelecionados.classList.toggle("ativo", modoFiltro==="selecionados");
-}
-
 function render(){
-let busca=buscaInput.value.toLowerCase();
-produtosDiv.innerHTML="";
-let cat="", total=0;
+let b=busca.value.toLowerCase();
+lista.innerHTML="";
+let total=0;
 
 produtos.forEach(p=>{
-let q=qtds[p.codigo]||0;
+let q=qtd[p.codigo]||0;
 
-if(!p.descricao.toLowerCase().includes(busca) && !p.codigo.includes(busca)) return;
-if(modoFiltro==="selecionados" && q==0) return;
+if(!p.descricao.toLowerCase().includes(b)&&!p.codigo.includes(b))return;
+if(modo=="sel"&&q==0)return;
 
-if(p.categoria!==cat){
-cat=p.categoria;
-produtosDiv.innerHTML+=`<div class="categoria">${cat}</div>`;
-}
+if(q>0)total+=q;
 
-if(q>0) total+=q;
-
-produtosDiv.innerHTML+=`
-<div class="item ${q>0?'ativo':''}" onclick="mais('${p.codigo}')">
-<div class="linha">
+lista.innerHTML+=`
+<div class="item ${q>0?'ativo':''}">
 <span>${p.codigo} - ${p.descricao}</span>
-<div class="controls" onclick="event.stopPropagation()">
-<button class="btn-minus"
-onmousedown="startHold('${p.codigo}')"
-onmouseup="stopHold()"
-onclick="menos('${p.codigo}')">-</button>
+<div class="controls">
+<button class="btn-minus" onclick="menos('${p.codigo}')">-</button>
 ${q}
 <button class="btn-plus" onclick="mais('${p.codigo}')">+</button>
-</div>
 </div>
 </div>`;
 });
 
-resumo.innerText="Itens: "+Object.keys(qtds).filter(k=>qtds[k]>0).length+" | Volumes: "+total;
+resumo.innerText="Itens: "+Object.keys(qtd).filter(k=>qtd[k]>0).length+" | Volumes: "+total;
 }
 
-function startHold(c){
-holdTimer=setTimeout(()=>{qtds[c]=0; salvar();},600);
-}
-function stopHold(){clearTimeout(holdTimer);}
+function mais(c){qtd[c]=(qtd[c]||0)+1;render();}
+function menos(c){if(qtd[c])qtd[c]--;render();}
+function limpar(){qtd={};render();}
 
-function mais(c){ qtds[c]=(qtds[c]||0)+1; salvar();}
-function menos(c){ if(qtds[c]>0) qtds[c]--; salvar();}
-function salvar(){ localStorage.setItem("qtd",JSON.stringify(qtds)); render();}
-function limpar(){ qtds={}; localStorage.clear(); render(); }
-
-function gerarNumero(){
-const d=new Date();
-return "RR"+d.getDate()+(""+(d.getMonth()+1)).padStart(2,'0')+d.getFullYear().toString().slice(2)+"-"+d.getHours()+d.getMinutes();
-}
-
-function montar(){
-const loja=lojaSelect.value;
-const extra=extraInput.value;
-
-let msg="*Pedido* Nº: "+gerarNumero()+"\n";
-msg+="Loja: "+loja+"\n\n*Itens*\n";
-
-let total=0;
-
-produtos.forEach(p=>{
-if(qtds[p.codigo]>0){
-total++;
-msg+=`${p.codigo} - ${p.descricao} = ${qtds[p.codigo]} ${p.embalagem}\n`;
-}
-});
-
-if(extra){
-msg+="\n*OBSERVAÇÕES OU FALTAS*\n"+extra+"\n";
-}
-
-msg+="\nTOTAL: "+total;
-
-return msg;
-}
-
-function abrirPainel(){
-
-if(!lojaSelect.value){
-alert("Selecione loja");
-return;
-}
+function abrir(){
+if(loja.value=="Selecione"){alert("Selecione loja");return;}
 
 let html="<h3>Conferência</h3>";
-
 let i=0;
+
 produtos.forEach(p=>{
-if(qtds[p.codigo]>0){
-let classe=i%2==0?"linha-par":"linha-impar";
-html+=`<div class="${classe}">${p.codigo} - ${p.descricao} = ${qtds[p.codigo]}</div>`;
+if(qtd[p.codigo]>0){
+html+=`<div class="${i%2?'linha-impar':'linha-par'}">${p.codigo} - ${p.descricao} = ${qtd[p.codigo]}</div>`;
 i++;
 }
 });
 
-html+=`
-<div class="modal-actions">
-<button class="btn-cancel" onclick="fecharModal()">Voltar</button>
-<button class="btn-confirm" onclick="enviar()">Confirmar</button>
-</div>
-`;
+html+=`<br>Total: ${i}<br><br>
+<button onclick="fechar()">Voltar</button>
+<button onclick="enviar()">Confirmar</button>`;
 
-conteudoModal.innerHTML=html;
+box.innerHTML=html;
 modal.style.display="flex";
 }
 
-function fecharModal(){
-modal.style.display="none";
-}
+function fechar(){modal.style.display="none";}
 
 function enviar(){
-let msg=montar();
-window.open("https://wa.me/5515997094000?text="+encodeURIComponent(msg));
-fecharModal();
+let msg="Pedido\n";
+produtos.forEach(p=>{
+if(qtd[p.codigo]>0)msg+=`${p.codigo} - ${p.descricao} = ${qtd[p.codigo]}\n`;
+});
+window.open("https://wa.me/?text="+encodeURIComponent(msg));
+fechar();
 }
 
-btnTodos.onclick=()=>{modoFiltro="todos"; atualizarBotoes(); render();}
-btnSelecionados.onclick=()=>{modoFiltro="selecionados"; atualizarBotoes(); render();}
+todos.onclick=()=>{modo="todos";todos.classList.add("ativo");sel.classList.remove("ativo");render();}
+sel.onclick=()=>{modo="sel";sel.classList.add("ativo");todos.classList.remove("ativo");render();}
+busca.oninput=render;
 
-buscaInput.oninput=render;
-
-const lojaSelect=document.getElementById("loja");
-const buscaInput=document.getElementById("busca");
-const extraInput=document.getElementById("extra");
-const produtosDiv=document.getElementById("produtos");
-const resumo=document.getElementById("resumo");
-const modal=document.getElementById("modal");
-const conteudoModal=document.getElementById("conteudoModal");
-const btnTodos=document.getElementById("btnTodos");
-const btnSelecionados=document.getElementById("btnSelecionados");
-
-carregar();
+init();
 
 </script>
 
