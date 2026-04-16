@@ -52,7 +52,9 @@ select,input,textarea{
 
 .modal{
 position:fixed; top:0; left:0; width:100%; height:100%;
-background:rgba(0,0,0,0.7); display:none; justify-content:center; align-items:center;
+background:rgba(0,0,0,0.7); display:none;
+justify-content:center; align-items:center;
+z-index:9999;
 }
 
 .modal-content{
@@ -60,7 +62,8 @@ background:white; width:90%; max-height:90%; overflow:auto;
 border-radius:10px; padding:15px;
 }
 
-.modal h3{ margin-top:0; }
+.linha-par{ background:#f3f4f6; padding:6px; }
+.linha-impar{ background:#ffffff; padding:6px; }
 
 .modal-actions{
 display:flex; gap:10px; margin-top:15px;
@@ -167,11 +170,14 @@ if(!document.getElementById("loja").value){ alert("Selecione loja"); return;}
 
 let html="<h3>Conferência do Pedido</h3>";
 
-let total=0;
+let i=0;
 produtos.forEach(p=>{
 if(qtds[p.codigo]>0){
-total++;
-html+=`${p.codigo} - ${p.descricao} = ${qtds[p.codigo]} ${p.embalagem}<br>`;
+let classe = i%2==0 ? "linha-par":"linha-impar";
+html+=`<div class="${classe}">
+${p.codigo} - ${p.descricao} = ${qtds[p.codigo]} ${p.embalagem}
+</div>`;
+i++;
 }
 });
 
@@ -180,7 +186,7 @@ if(extra){
 html+="<br><b>Itens não encontrados:</b><br>"+extra;
 }
 
-html+=`<br><br><b>Total de itens: ${total}</b>`;
+html+=`<br><br><b>Total de itens: ${i}</b>`;
 
 html+=`
 <div class="modal-actions">
@@ -199,18 +205,18 @@ document.getElementById("modal").style.display="none";
 
 function enviar(){
 let msg="Pedido RR\n";
-
 produtos.forEach(p=>{
 if(qtds[p.codigo]>0){
 msg+=`${p.codigo} - ${p.descricao} = ${qtds[p.codigo]}\n`;
 }
 });
-
 window.open("https://wa.me/5515997094000?text="+encodeURIComponent(msg));
 }
 
 document.getElementById("btnTodos").onclick=()=>{modoFiltro="todos";render();}
 document.getElementById("btnSelecionados").onclick=()=>{modoFiltro="selecionados";render();}
+
+document.getElementById("busca").addEventListener("input", render);
 
 carregar();
 
