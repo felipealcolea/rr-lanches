@@ -8,15 +8,20 @@
 <style>
 body { font-family: Arial; margin:0; background:#f3f4f6; padding-bottom:140px; }
 
-header{
-    background:#1e3a8a;
-    color:white;
-    padding:15px;
+/* LOGO TOPO */
+.topo-logo{
+    background:white;
+    padding:10px;
     text-align:center;
-    font-size:18px;
-    font-weight:bold;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.topo-logo img{
+    max-width:90%;
+    max-height:120px;
+    height:auto;
 }
 
+/* BLOCO TOPO */
 .topo{
     padding:10px;
     background:white;
@@ -119,7 +124,9 @@ select,input,textarea{
 
 <body>
 
-<header>RR Lanches</header>
+<div class="topo-logo">
+    <img src="logo2.png" alt="RR Lanches Parceria FBF">
+</div>
 
 <div class="topo">
 <select id="loja"></select>
