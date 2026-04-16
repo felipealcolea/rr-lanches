@@ -6,7 +6,7 @@
 <title>App RR Lanches</title>
 
 <style>
-body { font-family: Arial; margin: 10px; background: #f5f7fa; padding-bottom:120px; }
+body { font-family: Arial; margin: 10px; background: #f5f7fa; padding-bottom:130px; }
 h1 { color: #1e3a8a; font-size: 22px; }
 
 select, input, textarea {
@@ -16,25 +16,40 @@ select, input, textarea {
     margin-bottom: 12px;
 }
 
-.item { margin: 6px 0; padding: 8px; border-radius: 6px; }
+.item { margin: 6px 0; padding: 10px; border-radius: 8px; transition: 0.2s; }
 .linha-par { background: #f1f3f5; }
+.item.ativo { background: #d1fae5; }
 
 .item-top { display: flex; justify-content: space-between; align-items: center; gap:10px; }
 
 .desc { flex:1; font-size:14px; }
 
+.eye {
+    margin-left:6px;
+    cursor:pointer;
+    opacity:0.5;
+}
+.eye:hover { opacity:1; }
+
 .controls { display:flex; align-items:center; gap:5px; flex-shrink:0; }
 
-.controls button {
-    width: 36px;
-    height: 36px;
-    border: none;
-    color: white;
-    font-size: 18px;
+.qtd {
+    min-width: 20px;
+    text-align: center;
+    font-weight: bold;
 }
 
-.btn-minus { background: red; }
-.btn-plus { background: blue; }
+.controls button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    color: white;
+    font-size: 20px;
+    border-radius: 6px;
+}
+
+.btn-minus { background: #dc2626; }
+.btn-plus { background: #2563eb; }
 
 .categoria {
     margin-top: 20px;
@@ -52,7 +67,7 @@ select, input, textarea {
 
 .btn-enviar, .btn-limpar {
     flex:1;
-    padding: 15px;
+    padding: 16px;
     font-size:16px;
     border:none;
     color:white;
@@ -63,10 +78,10 @@ select, input, textarea {
 
 .logo {
     position: fixed;
-    bottom: 70px;
+    bottom: 80px;
     right: 10px;
     width: 70px;
-    opacity: 0.15;
+    opacity: 0.12;
 }
 </style>
 </head>
@@ -108,6 +123,10 @@ async function carregar(){
     render();
 }
 
+function abrir(link){
+    if(link) window.open(link,"_blank");
+}
+
 function render(){
     let busca = document.getElementById("busca").value.toLowerCase();
     let div = document.getElementById("produtos");
@@ -126,14 +145,19 @@ function render(){
 
         let qtd = quantidades[p.codigo] || 0;
         let classe = i % 2 === 0 ? "item linha-par" : "item";
+        if(qtd > 0) classe += " ativo";
+
+        let eye = p.link ? `<span class="eye" onclick="abrir('${p.link}')">👁</span>` : "";
 
         div.innerHTML += `
         <div class="${classe}">
             <div class="item-top">
-                <div class="desc">${p.codigo} - ${p.descricao}</div>
+                <div class="desc">
+                    ${p.codigo} - ${p.descricao} ${eye}
+                </div>
                 <div class="controls">
                     <button class="btn-minus" onclick="menos('${p.codigo}')">-</button>
-                    ${qtd}
+                    <div class="qtd">${qtd}</div>
                     <button class="btn-plus" onclick="mais('${p.codigo}')">+</button>
                 </div>
             </div>
