@@ -3,33 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RR Lanches - FINAL OK</title>
+<title>RR Lanches</title>
 
 <style>
 body{font-family:Arial;margin:0;background:#f3f4f6;padding-bottom:120px;}
 
-.topo{padding:10px;background:#fff;position:sticky;top:0;}
+.topo{padding:10px;background:#fff;position:sticky;top:0;z-index:10;}
 select,input,textarea{width:100%;padding:10px;margin-bottom:8px;border-radius:6px;border:1px solid #ccc;}
 
 .resumo{background:#111827;color:#fff;padding:8px;border-radius:6px;text-align:center;margin-bottom:8px;}
 
 .filtro{display:flex;gap:8px;margin-bottom:10px;}
-.filtro button{flex:1;padding:10px;border:none;border-radius:6px;background:#ddd;}
-.filtro .ativo{background:#1e3a8a;color:#fff;}
+.filtro button{flex:1;padding:12px;border:none;border-radius:8px;background:#e5e7eb;font-weight:bold;transition:.2s;}
+.filtro .ativo{background:#1e3a8a;color:#fff;transform:scale(1.05);box-shadow:0 3px 8px rgba(0,0,0,.2);}
 
-.item{background:#fff;margin:6px;padding:10px;border-radius:8px;display:flex;justify-content:space-between;}
+.categoria{padding:6px 10px;font-weight:bold;color:#1e3a8a;}
+
+.item{background:#fff;margin:6px 10px;padding:10px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;}
 .item.ativo{background:#d1fae5;}
 
+.controls{display:flex;gap:5px;align-items:center;}
 .controls button{width:35px;height:35px;border:none;color:#fff;border-radius:6px;}
 .btn-plus{background:#2563eb;}
 .btn-minus{background:#dc2626;}
 
 .botoes{position:fixed;bottom:0;width:100%;display:flex;}
-.botoes button{flex:1;padding:15px;border:none;color:#fff;}
+.botoes button{flex:1;padding:15px;border:none;color:#fff;font-size:16px;}
 .enviar{background:#16a34a;}
 .limpar{background:#374151;}
 
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;display:none;background:rgba(0,0,0,0.7);justify-content:center;align-items:center;}
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;display:none;background:rgba(0,0,0,0.7);justify-content:center;align-items:center;z-index:9999;}
 .modal-box{background:#fff;width:90%;max-height:90%;overflow:auto;padding:15px;border-radius:10px;}
 
 .linha-par{background:#f3f4f6;padding:6px;}
@@ -42,14 +45,14 @@ select,input,textarea{width:100%;padding:10px;margin-bottom:8px;border-radius:6p
 
 <div class="topo">
 <select id="loja"></select>
-<input id="busca" placeholder="Buscar">
+<input id="busca" placeholder="Buscar produto...">
 <textarea id="extra" placeholder="Observações ou faltas"></textarea>
 
-<div class="resumo" id="resumo">Itens: 0</div>
+<div class="resumo" id="resumo">Itens: 0 | Volumes: 0</div>
 
 <div class="filtro">
-<button id="todos" class="ativo">Todos</button>
-<button id="sel">Selecionados</button>
+<button id="btnTodos" class="ativo">Todos</button>
+<button id="btnSel">Selecionados</button>
 </div>
 </div>
 
@@ -57,92 +60,134 @@ select,input,textarea{width:100%;padding:10px;margin-bottom:8px;border-radius:6p
 
 <div class="botoes">
 <button class="limpar" onclick="limpar()">Limpar</button>
-<button class="enviar" onclick="abrir()">Enviar</button>
+<button class="enviar" onclick="abrirPainel()">Enviar</button>
 </div>
 
 <div class="modal" id="modal">
-<div class="modal-box" id="box"></div>
+<div class="modal-box" id="painel"></div>
 </div>
 
 <script>
 
-let produtos=[],lojas=[],qtd={},modo="todos";
+let produtos=[], lojas=[], qtd={}, modo="todos", hold=null;
 
 async function init(){
-produtos=await fetch("produtos.json").then(r=>r.json());
-lojas=await fetch("lojas.json").then(r=>r.json());
+produtos = await fetch("produtos.json").then(r=>r.json());
+lojas = await fetch("lojas.json").then(r=>r.json());
 
-loja.innerHTML="<option>Selecione</option>";
+loja.innerHTML="<option value=''>Selecione a loja</option>";
 lojas.forEach(l=>loja.innerHTML+=`<option>${l.codigo} - ${l.nome}</option>`);
 
 render();
 }
 
 function render(){
-let b=busca.value.toLowerCase();
+let termo=busca.value.toLowerCase();
 lista.innerHTML="";
-let total=0;
+let cat="", totalVol=0;
 
 produtos.forEach(p=>{
 let q=qtd[p.codigo]||0;
 
-if(!p.descricao.toLowerCase().includes(b)&&!p.codigo.includes(b))return;
-if(modo=="sel"&&q==0)return;
+if(!p.descricao.toLowerCase().includes(termo) && !p.codigo.includes(termo)) return;
+if(modo==="sel" && q===0) return;
 
-if(q>0)total+=q;
+if(p.categoria!==cat){
+cat=p.categoria;
+lista.innerHTML+=`<div class="categoria">${cat}</div>`;
+}
+
+if(q>0) totalVol+=q;
 
 lista.innerHTML+=`
 <div class="item ${q>0?'ativo':''}">
 <span>${p.codigo} - ${p.descricao}</span>
 <div class="controls">
-<button class="btn-minus" onclick="menos('${p.codigo}')">-</button>
+<button class="btn-minus"
+onmousedown="segurar('${p.codigo}')"
+onmouseup="parar()"
+ontouchstart="segurar('${p.codigo}')"
+ontouchend="parar()"
+onclick="menos('${p.codigo}')">-</button>
 ${q}
 <button class="btn-plus" onclick="mais('${p.codigo}')">+</button>
 </div>
 </div>`;
 });
 
-resumo.innerText="Itens: "+Object.keys(qtd).filter(k=>qtd[k]>0).length+" | Volumes: "+total;
+let itens = Object.values(qtd).filter(v=>v>0).length;
+resumo.innerText=`Itens: ${itens} | Volumes: ${totalVol}`;
 }
 
 function mais(c){qtd[c]=(qtd[c]||0)+1;render();}
 function menos(c){if(qtd[c])qtd[c]--;render();}
+
+function segurar(c){
+hold=setTimeout(()=>{qtd[c]=0;render();},600);
+}
+function parar(){clearTimeout(hold);}
+
 function limpar(){qtd={};render();}
 
-function abrir(){
-if(loja.value=="Selecione"){alert("Selecione loja");return;}
+function gerarNumero(){
+let d=new Date();
+return "RR"+d.getDate()+(""+(d.getMonth()+1)).padStart(2,"0")+d.getFullYear().toString().slice(2)+"-"+d.getHours()+d.getMinutes();
+}
 
-let html="<h3>Conferência</h3>";
-let i=0;
+function montar(){
+let msg=`*Pedido* Nº: ${gerarNumero()}\n`;
+msg+=`Loja: ${loja.value}\n\n*Itens*\n`;
 
+let total=0;
 produtos.forEach(p=>{
 if(qtd[p.codigo]>0){
-html+=`<div class="${i%2?'linha-impar':'linha-par'}">${p.codigo} - ${p.descricao} = ${qtd[p.codigo]}</div>`;
+total++;
+msg+=`${p.codigo} - ${p.descricao} = ${qtd[p.codigo]} ${p.embalagem}\n`;
+}
+});
+
+if(extra.value){
+msg+=`\n*OBSERVAÇÕES OU FALTAS*\n${extra.value}\n`;
+}
+
+msg+=`\n---------------\n*TOTAL DE ITENS:* ${total}`;
+
+return msg;
+}
+
+function abrirPainel(){
+
+if(!loja.value){alert("Selecione loja");return;}
+
+let html="<h3>📦 Conferência do Pedido</h3>";
+
+let i=0;
+produtos.forEach(p=>{
+if(qtd[p.codigo]>0){
+html+=`<div class="${i%2?'linha-impar':'linha-par'}">
+${p.codigo} - ${p.descricao} = ${qtd[p.codigo]} ${p.embalagem}
+</div>`;
 i++;
 }
 });
 
-html+=`<br>Total: ${i}<br><br>
+html+=`<br><b>Total: ${i}</b><br><br>
 <button onclick="fechar()">Voltar</button>
 <button onclick="enviar()">Confirmar</button>`;
 
-box.innerHTML=html;
+painel.innerHTML=html;
 modal.style.display="flex";
 }
 
 function fechar(){modal.style.display="none";}
 
 function enviar(){
-let msg="Pedido\n";
-produtos.forEach(p=>{
-if(qtd[p.codigo]>0)msg+=`${p.codigo} - ${p.descricao} = ${qtd[p.codigo]}\n`;
-});
-window.open("https://wa.me/?text="+encodeURIComponent(msg));
+window.open("https://wa.me/?text="+encodeURIComponent(montar()));
 fechar();
 }
 
-todos.onclick=()=>{modo="todos";todos.classList.add("ativo");sel.classList.remove("ativo");render();}
-sel.onclick=()=>{modo="sel";sel.classList.add("ativo");todos.classList.remove("ativo");render();}
+btnTodos.onclick=()=>{modo="todos";btnTodos.classList.add("ativo");btnSel.classList.remove("ativo");render();}
+btnSel.onclick=()=>{modo="sel";btnSel.classList.add("ativo");btnTodos.classList.remove("ativo");render();}
 busca.oninput=render;
 
 init();
