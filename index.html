@@ -868,68 +868,116 @@
             try {
                 // Load products
                 produtos = [
-                    // Isopor
-                    { codigo: "116", descricao: "TH-002 - CAIXA ISOPOR C/400", categoria: "Isopor", embalagem: "cx" },
-                    { codigo: "113", descricao: "TH-003 - CAIXA ISOPOR C/400", categoria: "Isopor", embalagem: "cx" },
-                    // Sacola
-                    { codigo: "1032", descricao: "SACOLA BALCAO 35X45", categoria: "Sacola", embalagem: "pct" },
-                    { codigo: "24", descricao: "SACOLA ENTREGA 38X48", categoria: "Sacola", embalagem: "pct" },
-                    // Copos
-                    { codigo: "108", descricao: "COPO 50ML CAFÉ C/100", categoria: "Copos", embalagem: "cx" },
-                    { codigo: "100", descricao: "COPO 180ML C/100 (Cx/25pcts)", categoria: "Copos", embalagem: "cx" },
-                    { codigo: "111", descricao: "COPO 300ML C/100 (Cx/20pcts)", categoria: "Copos", embalagem: "cx" },
-                    // Lixo
-                    { codigo: "441", descricao: "ROLO SACO LIXO 30L C/50", categoria: "Lixo", embalagem: "rolo" },
-                    { codigo: "905", descricao: "SACO LIXO 100L C/ALÇA C/30", categoria: "Lixo", embalagem: "pct" },
-                    // Papel
-                    { codigo: "482", descricao: "GUARDANAPO INTER. 10X21 - CX", categoria: "Papel", embalagem: "cx" },
-                    { codigo: "305", descricao: "LACRE DE SEG. VERM C/1.000", categoria: "Papel", embalagem: "cx" },
-                    { codigo: "155", descricao: "PALITO SACHE - C/1.000", categoria: "Papel", embalagem: "cx" },
-                    { codigo: "177", descricao: "PAPEL HIGIENICO ROLAO C/8", categoria: "Papel", embalagem: "pct" },
-                    { codigo: "1375", descricao: "PAPEL TOALHA ROLO 200MTS C/6", categoria: "Papel", embalagem: "cx" },
-                    { codigo: "173", descricao: "PAPEL INTERF. BANH. C/6.000", categoria: "Papel", embalagem: "cx" },
-                    // Plásticos
-                    { codigo: "20", descricao: "BOBINA PIC. 20X30 - PEQUENA", categoria: "Plásticos", embalagem: "rolo" },
-                    { codigo: "21", descricao: "BOBINA PIC 35X45 - GRANDE", categoria: "Plásticos", embalagem: "rolo" },
-                    { codigo: "431", descricao: "CANUDO SACHÊ C/500", categoria: "Plásticos", embalagem: "cx" },
-                    { codigo: "137", descricao: "FITA ADESIVA C/10", categoria: "Plásticos", embalagem: "cx" },
-                    { codigo: "1098", descricao: "CHUP CHUP 100X100 (FARDO)", categoria: "Plásticos", embalagem: "fardo" },
-                    // Limpeza - C/ Cabo
-                    { codigo: "283", descricao: "LIMPA AZULEJO 25CM", categoria: "Limpeza - C/ Cabo", embalagem: "un" },
-                    { codigo: "1325", descricao: "MEGA L. AZULEJO 40CM", categoria: "Limpeza - C/ Cabo", embalagem: "un" },
-                    { codigo: "1070", descricao: "PA DE LIXO PLASTICO", categoria: "Limpeza - C/ Cabo", embalagem: "un" },
-                    { codigo: "423", descricao: "LA DE ACO ASSOLAN C/8", categoria: "Limpeza - C/ Cabo", embalagem: "cx" },
-                    { codigo: "1180", descricao: "ESPONJA YPE AZUL C/3", categoria: "Limpeza - C/ Cabo", embalagem: "cx" },
-                    { codigo: "357", descricao: "FIBRACO SCOTCH 3M C/5", categoria: "Limpeza - C/ Cabo", embalagem: "cx" },
-                    { codigo: "145", descricao: "MASCARA DESCARTAVEL C/50", categoria: "Limpeza - C/ Cabo", embalagem: "cx" },
-                    { codigo: "136", descricao: "TOUCA TNT BRANCA C/100", categoria: "Limpeza - C/ Cabo", embalagem: "cx" },
-                    { codigo: "294", descricao: "REDE PRETA - C/10", categoria: "Limpeza - C/ Cabo", embalagem: "cx" },
-                    { codigo: "1008", descricao: "ASSENTO SANITARIO", categoria: "Limpeza - C/ Cabo", embalagem: "un" },
-                    { codigo: "571", descricao: "BALDE 15L TOYPLAST ALCA PLASTICA", categoria: "Limpeza - C/ Cabo", embalagem: "un" },
-                    { codigo: "233", descricao: "BORRIFADOR PEAD 500ML", categoria: "Limpeza - C/ Cabo", embalagem: "un" },
-                    // Limpeza - Panos
-                    { codigo: "166", descricao: "SACO ALVEJADO XADREZ AZUL C/5", categoria: "Limpeza - Panos", embalagem: "cx" },
-                    { codigo: "1013", descricao: "SACO ALVEJADO BRANCO C/10", categoria: "Limpeza - Panos", embalagem: "cx" },
-                    { codigo: "135", descricao: "PANO MULTIUSO AZUL C/600", categoria: "Limpeza - Panos", embalagem: "cx" },
-                    // Limpeza - Luvas
-                    { codigo: "147", descricao: "SEM PO G - LUVA DE VINIL -  C/100", categoria: "Limpeza - Luvas", embalagem: "cx" },
-                    { codigo: "149", descricao: "SEM PO M - LUVA DE VINIL -  C/100", categoria: "Limpeza - Luvas", embalagem: "cx" },
-                    { codigo: "804", descricao: "SEM PO P - LUVA DE VINIL -  C/100", categoria: "Limpeza - Luvas", embalagem: "cx" },
-                    { codigo: "582", descricao: "LUVA AMARELA - G PAR", categoria: "Limpeza - Luvas", embalagem: "par" },
-                    { codigo: "139", descricao: "LUVA AMARELA - M PAR", categoria: "Limpeza - Luvas", embalagem: "par" },
-                    { codigo: "618", descricao: "LUVA AMARELA - P PAR", categoria: "Limpeza - Luvas", embalagem: "par" },
-                    // Escritório
-                    { codigo: "744", descricao: "BOBINA BRANCA CUPOM FIS C/15", categoria: "Escritório", embalagem: "cx" },
-                    { codigo: "223", descricao: "PAPEL SULFITE C/500", categoria: "Escritório", embalagem: "pct" },
-                    { codigo: "1480", descricao: "CANETA DETECTORA CEDULAS FALSAS", categoria: "Escritório", embalagem: "un" },
-                    { codigo: "1158", descricao: "CANITA AZUL TIPO BIC", categoria: "Escritório", embalagem: "un" },
-                    { codigo: "813", descricao: "GRAMPO GALVANIZADO 26/6 C/5000", categoria: "Escritório", embalagem: "cx" },
-                    { codigo: "816", descricao: "MARCA TEXTO AMARELO", categoria: "Escritório", embalagem: "un" },
-                    { codigo: "1478", descricao: "MARCA TEXTO ROSA", categoria: "Escritório", embalagem: "un" },
-                    { codigo: "1475", descricao: "MARCA TEXTO VERDE", categoria: "Escritório", embalagem: "un" },
-                    { codigo: "817", descricao: "REGUA PLASTICA 30CM", categoria: "Escritório", embalagem: "un" },
-                    { codigo: "1160", descricao: "CADERNO CD 1MATERIA C/80FLS", categoria: "Escritório", embalagem: "un" },
-                    { codigo: "834", descricao: "ELASTICO DINHEIRO MAMUTH C/600", categoria: "Escritório", embalagem: "cx" }
+  // Isopor
+  { codigo: "116", descricao: "TH-002 - CAIXA ISOPOR C/400", categoria: "Isopor", embalagem: "fd" },
+  { codigo: "113", descricao: "TH-003 - CAIXA ISOPOR C/400", categoria: "Isopor", embalagem: "fd" },
+
+  // Sacola
+  { codigo: "1032", descricao: "SACOLA BALCAO 35X45", categoria: "Sacola", embalagem: "pct" },
+  { codigo: "024", descricao: "SACOLA ENTREGA 38X48", categoria: "Sacola", embalagem: "pct" },
+
+  // Copos
+  { codigo: "108", descricao: "COPO 50ML CAFÉ C/100", categoria: "Copos", embalagem: "pct" },
+  { codigo: "100", descricao: "COPO 180ML C/100", categoria: "Copos", embalagem: "pct" },
+  { codigo: "100", descricao: "COPO 180ML C/100 Caixa C/2.500", categoria: "Copos", embalagem: "cx" },
+  { codigo: "111", descricao: "COPO 300ML C/100", categoria: "Copos", embalagem: "pct" },
+  { codigo: "111", descricao: "COPO 300ML Caixa C/1.000", categoria: "Copos", embalagem: "cx" },
+
+  // Lixo
+  { codigo: "441", descricao: "ROLO SACO LIXO 30L C/50", categoria: "Lixo", embalagem: "pct" },
+  { codigo: "905", descricao: "SACO LIXO 100L C/ALÇA C/30", categoria: "Lixo", embalagem: "fd" },
+
+  // Papel
+  { codigo: "482", descricao: "GUARDANAPO INTER. 10X21 - CX", categoria: "Papel", embalagem: "cx" },
+  { codigo: "305", descricao: "LACRE DE SEG. VERM C/1.000", categoria: "Papel", embalagem: "rl" },
+  { codigo: "155", descricao: "PALITO SACHE - C/1.000", categoria: "Papel", embalagem: "cx" },
+  { codigo: "177", descricao: "PAPEL HIGIENICO ROLAO C/8", categoria: "Papel", embalagem: "fd" },
+  { codigo: "1375", descricao: "PAPEL TOALHA ROLO 200MTS C/6", categoria: "Papel", embalagem: "fd" },
+  { codigo: "173", descricao: "PAPEL INTERF. BANH. C/6.000", categoria: "Papel", embalagem: "fd" },
+
+  // Plásticos
+  { codigo: "020", descricao: "BOBINA PIC. 20X30 - PEQUENA", categoria: "Plásticos", embalagem: "rl" },
+  { codigo: "021", descricao: "BOBINA PIC. 35X45 - GRANDE", categoria: "Plásticos", embalagem: "rl" },
+  { codigo: "431", descricao: "CANUDO SACHÊ C/500", categoria: "Plásticos", embalagem: "pct" },
+  { codigo: "137", descricao: "FITA ADESIVA C/10", categoria: "Plásticos", embalagem: "pct" },
+  { codigo: "1098", descricao: "CHUP CHUP 100X100 (FARDO)", categoria: "Plásticos", embalagem: "fdn" },
+
+  // Limpeza - SEM Cabo
+  { codigo: "283", descricao: "LIMPA AZULEJO 25CM", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
+  { codigo: "1325", descricao: "MEGA L. AZULEJO 40CM", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
+  { codigo: "1070", descricao: "PA DE LIXO PLASTICO", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
+  { codigo: "1178", descricao: "RODO DE PIA", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
+  { codigo: "288", descricao: "RODO PLASTICO 40CM", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
+  { codigo: "286", descricao: "RODO PLASTICO 60CM", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
+  { codigo: "282", descricao: "VASSOURA COM CAPA", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
+  { codigo: "290", descricao: "DESENTUPIDOR WC", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
+  { codigo: "281", descricao: "CABO DE MADEIRA 1,20CM", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
+
+  // Limpeza - Galões
+  { codigo: "717", descricao: "ALCOOL 70° LIQ. 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
+  { codigo: "781", descricao: "ALCOOL 70° GEL. 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
+  { codigo: "884", descricao: "LIMPA TUDO YAN 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
+  { codigo: "039", descricao: "DESINFETANTE CASA LIMPA 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
+  { codigo: "040", descricao: "DESINFETANTE EUCALIPTO 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
+  { codigo: "038", descricao: "DESINFETANTE LAVANDA 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
+  { codigo: "037", descricao: "DESINFETANTE NATURE 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
+  { codigo: "027", descricao: "LIMPA ALUMINIO 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
+  { codigo: "033", descricao: "CLORO GEL 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
+  { codigo: "583", descricao: "REMOVEDOR PER 900ML LAV.", categoria: "Limpeza - Galões", embalagem: "fr" },
+  { codigo: "041", descricao: "SABONETE LIQ. DOW 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
+  { codigo: "032", descricao: "SABONETE LIQ. ERVA D. 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
+  { codigo: "1129", descricao: "GRILL ALCALINO START 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
+  { codigo: "248", descricao: "CERA INCOLOR 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
+
+  // Limpeza - Produtos
+  { codigo: "1063", descricao: "DES CONCEN. AZULIM 140ML", categoria: "Limpeza - Produtos", embalagem: "fr" },
+  { codigo: "923", descricao: "DIFUSOR DE AROMA PIA 300ML", categoria: "Limpeza - Produtos", embalagem: "fr" },
+  { codigo: "972", descricao: "LUSTRA-MOVEIS 200ML YAN", categoria: "Limpeza - Produtos", embalagem: "fr" },
+  { codigo: "930", descricao: "GEL SANITARIO C/APLICADOR LAV.", categoria: "Limpeza - Produtos", embalagem: "und" },
+  { codigo: "931", descricao: "GEL SANITARIO C/APLICADOR MAR.", categoria: "Limpeza - Produtos", embalagem: "und" },
+  { codigo: "235", descricao: "PEDRA SANITARIA C/12", categoria: "Limpeza - Produtos", embalagem: "pct" },
+  { codigo: "422", descricao: "SABAO EM BARRA C/5", categoria: "Limpeza - Produtos", embalagem: "pct" },
+  { codigo: "078", descricao: "SABAO EM PO 800GR YAN", categoria: "Limpeza - Produtos", embalagem: "pct" },
+  { codigo: "513", descricao: "INSETICIDA AEROSOL BAYGON", categoria: "Limpeza - Produtos", embalagem: "fr" },
+
+  // Limpeza - Acessórios
+  { codigo: "216", descricao: "AVENTAL DE VINIL", categoria: "Limpeza - Acessórios", embalagem: "und" },
+  { codigo: "517", descricao: "ESPONJA DUPLA FACE C/4", categoria: "Limpeza - Acessórios", embalagem: "pct" },
+  { codigo: "423", descricao: "LA DE ACO ASSOLAN C/8", categoria: "Limpeza - Acessórios", embalagem: "pct" },
+  { codigo: "1180", descricao: "ESPONJA YPE AZUL C/3", categoria: "Limpeza - Acessórios", embalagem: "pct" },
+  { codigo: "357", descricao: "FIBRACO SCOTCH 3M C/5", categoria: "Limpeza - Acessórios", embalagem: "pct" },
+  { codigo: "145", descricao: "MASCARA DESCARTAVEL C/50", categoria: "Limpeza - Acessórios", embalagem: "pct" },
+  { codigo: "136", descricao: "TOUCA TNT BRANCA C/100", categoria: "Limpeza - Acessórios", embalagem: "pct" },
+  { codigo: "294", descricao: "REDE PRETA - C/10", categoria: "Limpeza - Acessórios", embalagem: "pct" },
+  { codigo: "1008", descricao: "ASSENTO SANITARIO", categoria: "Limpeza - Acessórios", embalagem: "und" },
+  { codigo: "571", descricao: "BALDE 15L TOYPLAST ALCA PLASTICA", categoria: "Limpeza - Acessórios", embalagem: "und" },
+  { codigo: "233", descricao: "BORRIFADOR PEAD 500ML", categoria: "Limpeza - Acessórios", embalagem: "und" },
+
+  // Limpeza - Panos
+  { codigo: "166", descricao: "SACO ALVEJADO XADREZ AZUL C/5", categoria: "Limpeza - Panos", embalagem: "pct" },
+  { codigo: "1013", descricao: "SACO ALVEJADO BRANCO C/10", categoria: "Limpeza - Panos", embalagem: "pct" },
+  { codigo: "135", descricao: "PANO MULTIUSO AZUL C/600", categoria: "Limpeza - Panos", embalagem: "rl" },
+
+  // Limpeza - Luvas
+  { codigo: "147", descricao: "SEM PO G - LUVA DE VINIL - C/100", categoria: "Limpeza - Luvas", embalagem: "cx" },
+  { codigo: "149", descricao: "SEM PO M - LUVA DE VINIL - C/100", categoria: "Limpeza - Luvas", embalagem: "cx" },
+  { codigo: "804", descricao: "SEM PO P - LUVA DE VINIL - C/100", categoria: "Limpeza - Luvas", embalagem: "cx" },
+  { codigo: "582", descricao: "LUVA AMARELA - G PAR", categoria: "Limpeza - Luvas", embalagem: "pct" },
+  { codigo: "139", descricao: "LUVA AMARELA - M PAR", categoria: "Limpeza - Luvas", embalagem: "pct" },
+  { codigo: "618", descricao: "LUVA AMARELA - P PAR", categoria: "Limpeza", embalagem: "pct" },
+
+  // Escritório
+  { codigo: "744", descricao: "BOBINA BRANCA CUPOM FIS C/15", categoria: "Escritório", embalagem: "cx" },
+  { codigo: "223", descricao: "PAPEL SULFITE C/500", categoria: "Escritório", embalagem: "pct" },
+  { codigo: "1480", descricao: "CANETA DETECTORA CEDULAS FALSAS", categoria: "Escritório", embalagem: "und" },
+  { codigo: "1158", descricao: "CANITA AZUL TIPO BIC", categoria: "Escritório", embalagem: "und" },
+  { codigo: "813", descricao: "GRAMPO GALVANIZADO 26/6 C/5000", categoria: "Escritório", embalagem: "cx" },
+  { codigo: "816", descricao: "MARCA TEXTO AMARELO", categoria: "Escritório", embalagem: "und" },
+  { codigo: "1478", descricao: "MARCA TEXTO ROSA", categoria: "Escritório", embalagem: "und" },
+  { codigo: "1475", descricao: "MARCA TEXTO VERDE", categoria: "Escritório", embalagem: "und" },
+  { codigo: "817", descricao: "REGUA PLASTICA 30CM", categoria: "Escritório", embalagem: "und" },
+  { codigo: "1160", descricao: "CADERNO CD 1 MATERIA C/80FLS", categoria: "Escritório", embalagem: "und" },
+  { codigo: "834", descricao: "ELASTICO DINHEIRO MAMUTH C/600", categoria: "Escritório", embalagem: "pct" }
                 ];
 
                 // Load stores
