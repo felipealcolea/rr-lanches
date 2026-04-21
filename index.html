@@ -421,6 +421,53 @@
             box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
 
+        /* ===== SEARCH SECTION ===== */
+        .search-section {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-wrapper-full {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-wrapper-full input {
+            width: 100%;
+            padding: 0.75rem 2.5rem 0.75rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-wrapper-full input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-clear-btn {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.25rem;
+            transition: color 0.2s ease;
+        }
+
+        .search-clear-btn:hover {
+            color: var(--primary-light);
+        }
+
         /* ===== ORDER REVIEW ===== */
         .order-review-section {
             background: white;
@@ -837,12 +884,6 @@
                 <select id="loja" class="form-select form-select-sm">
                     <option value="">Selecione a loja</option>
                 </select>
-                <div class="search-wrapper">
-                    <input type="text" id="busca" class="form-control form-control-sm" placeholder="Buscar...">
-                    <button class="search-clear-btn" id="btnLimparBusca" onclick="limparBusca()" style="display: none;" title="Limpar busca">
-                        <i class="bi bi-x-circle-fill"></i>
-                    </button>
-                </div>
             </div>
         </div>
     </nav>
@@ -879,6 +920,16 @@
                 <div class="buyer-section">
                     <label for="comprador"><i class="bi bi-person-badge"></i> Nome do Comprador (Obrigatório)</label>
                     <input type="text" id="comprador" placeholder="Digite seu nome completo..." required>
+                </div>
+
+                <!-- Search Field -->
+                <div class="search-section">
+                    <div class="search-wrapper-full">
+                        <input type="text" id="busca" class="form-control" placeholder="🔍 Buscar produtos...">
+                        <button class="search-clear-btn" id="btnLimparBusca" onclick="limparBusca()" style="display: none;" title="Limpar busca">
+                            <i class="bi bi-x-circle-fill"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div id="lista">
