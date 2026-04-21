@@ -925,7 +925,7 @@
                 <!-- Search Field -->
                 <div class="search-section">
                     <div class="search-wrapper-full">
-                        <input type="text" id="busca" class="form-control" placeholder="🔍 Buscar produtos...">
+                        <input type="text" id="busca" class="form-control" placeholder="Buscar produtos...">
                         <button class="search-clear-btn" id="btnLimparBusca" onclick="limparBusca()" style="display: none;" title="Limpar busca">
                             <i class="bi bi-x-circle-fill"></i>
                         </button>
@@ -1237,34 +1237,51 @@
             const lojaNome = lojas.find(l => l.codigo === loja)?.nome || loja;
             const extra = document.getElementById("extra").value.trim();
             const pedidoNum = gerarNumero();
+            const dataHora = new Date().toLocaleString('pt-BR');
             
-            let msg = `🛒 *PEDIDO #${pedidoNum}*\n`;
-            msg += `👤 Comprador: ${comprador}\n`;
-            msg += `🏪 Loja: ${lojaNome}\n`;
-            msg += `📅 Data: ${new Date().toLocaleDateString('pt-BR')}\n`;
-            msg += `\n*ITENS DO PEDIDO:*\n`;
+            let msg = `*NOVO PEDIDO: ${lojaNome}*\n`;
+            msg += `*Nº:* ${pedidoNum}\n`;
+            msg += `*COMPRADOR:* ${comprador}\n\n`;
             
-            items.forEach(p => {
+            let totalItens = 0;
+            let totalVolumes = 0;
+            let currentCat = "";
+            
+            produtos.forEach(p => {
                 const chaveUnica = `${p.codigo}_${p.embalagem}`;
-                const q = qtd[chaveUnica];
-                const codigoCount = produtos.filter(prod => prod.codigo === p.codigo).length;
-                let codigoExibicao = p.codigo;
-                if (codigoCount > 1 && p.embalagem) {
-                    codigoExibicao = `${p.codigo} (${p.embalagem})`;
+                const q = qtd[chaveUnica] || 0;
+                if (q > 0) {
+                    if (p.categoria !== currentCat) {
+                        currentCat = p.categoria;
+                        msg += `\n> *${currentCat.toUpperCase()}*\n`;
+                    }
+                    totalItens++;
+                    totalVolumes += q;
+                    const codigoCount = produtos.filter(prod => prod.codigo === p.codigo).length;
+                    let codigoExibicao = p.codigo;
+                    if (codigoCount > 1 && p.embalagem) {
+                        codigoExibicao = `${p.codigo} (${p.embalagem})`;
+                    }
+                    msg += `- [${codigoExibicao}] *x ${q} (${p.embalagem})* ${p.descricao}\n`;
                 }
-                msg += `[${codigoExibicao}] x${q} (${p.embalagem}) ${p.descricao}\n`;
             });
             
             if (extra) {
-                msg += `\n📝 *OBSERVAÇÕES:*\n${extra}\n`;
+                msg += `\n*OBSERVAÇÕES OU FALTAS:*\n${extra}\n`;
             }
             
             if (deliveryOption) {
-                const notes = document.getElementById("deliveryNotes").value.trim();
-                msg += `\n🚚 *ENTREGA:*\n${notes || "Conforme combinado"}\n`;
+                const deliveryNotes = document.getElementById("deliveryNotes").value.trim();
+                if (deliveryNotes) {
+                    msg += `\n*ENTREGA/LOCAL:*\n${deliveryNotes}\n`;
+                }
             }
             
-            msg += `\n✅ Pedido enviado via App FBF`;
+            msg += `\n--------------------------\n`;
+            msg += `*RESUMO:*\n`;
+            msg += `*Total de Itens:* ${totalItens}\n`;
+            msg += `*Total de Volumes:* ${totalVolumes}\n\n`;
+            msg += `*Gerado em:* ${dataHora}`;
             
             return msg;
         }
