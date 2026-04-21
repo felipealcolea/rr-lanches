@@ -37,6 +37,9 @@
         body {
             background-color: var(--light-bg);
             color: #1e293b;
+            overflow-x: hidden;
+            width: 100vw;
+            max-width: 100%;
         }
 
         /* ===== LOGO SECTION ===== */
@@ -131,6 +134,7 @@
         /* ===== MAIN CONTAINER ===== */
         .main-container {
             padding: 1.5rem 0;
+            overflow-x: hidden;
         }
 
         /* ===== CATEGORY BADGE ===== */
@@ -195,6 +199,7 @@
             align-items: center;
             transition: all 0.3s ease;
             cursor: pointer;
+            overflow: hidden;
         }
 
         .product-item:hover {
@@ -212,10 +217,13 @@
             align-items: center;
             gap: 0.75rem;
             flex: 1;
+            min-width: 0;
         }
 
         .product-info {
             flex: 1;
+            min-width: 0;
+            overflow: hidden;
         }
 
         .product-code {
@@ -230,6 +238,9 @@
             color: #1e293b;
             margin: 0.25rem 0 0 0;
             font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .view-link-btn {
@@ -258,6 +269,7 @@
             background: var(--light-bg);
             padding: 0.35rem;
             border-radius: 6px;
+            flex-shrink: 0;
         }
 
         .qty-btn {
