@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RR Lanches - Sistema de Pedidos</title>
+    <title>RR Lanches - Pedidos</title>
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -39,6 +39,21 @@
             color: #1e293b;
         }
 
+        /* ===== LOGO SECTION ===== */
+        .logo-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-section img {
+            max-width: 100%;
+            height: auto;
+            max-height: 80px;
+            object-fit: contain;
+        }
+
         /* ===== NAVBAR - MOBILE FIRST ===== */
         .navbar {
             background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
@@ -49,387 +64,216 @@
         /* Search input wrapper */
         .search-wrapper {
             position: relative;
-            width: 100%;
+            flex: 1;
+            min-width: 120px;
+            max-width: none;
         }
 
-        .search-wrapper .form-control {
-            padding-right: 2.5rem;
+        .search-wrapper input {
+            border-radius: 20px;
+            border: none;
+            padding: 0.4rem 0.75rem 0.4rem 2rem;
+            font-size: 0.85rem;
+        }
+
+        .search-wrapper input::placeholder {
+            color: #94a3b8;
         }
 
         .search-clear-btn {
             position: absolute;
-            right: 0.5rem;
+            right: 8px;
             top: 50%;
             transform: translateY(-50%);
             background: none;
             border: none;
             color: #64748b;
             cursor: pointer;
-            padding: 0.25rem 0.5rem;
-            font-size: 1.2rem;
-            line-height: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: color 0.2s ease;
+            font-size: 1rem;
+            padding: 0;
         }
 
         .search-clear-btn:hover {
             color: #1e293b;
         }
 
-        .search-clear-btn:active {
-            transform: translateY(-50%) scale(0.95);
-        }
-
-        /* ===== FLOATING CART ===== */
-        .floating-cart {
-            position: fixed;
-            bottom: 2rem;
-            right: 1rem;
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 16px rgba(30, 58, 138, 0.4);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 100;
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        .floating-cart:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.5);
-        }
-
-        .floating-cart:active {
-            transform: scale(0.95);
-        }
-
-        .floating-cart i {
-            font-size: 1.8rem;
-            margin-right: 0.25rem;
-        }
-
-        .cart-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--danger-color);
-            color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 700;
-            border: 2px solid white;
-        }
-
-        .floating-cart.hidden {
-            opacity: 0;
-            pointer-events: none;
-            transform: scale(0.8);
-        }
-
-        @media (min-width: 768px) {
-            .floating-cart {
-                width: 70px;
-                height: 70px;
-                bottom: 2.5rem;
-                right: 2rem;
-            }
-
-            .floating-cart i {
-                font-size: 2rem;
-            }
-        }
-
         .navbar-brand {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: white !important;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            margin-bottom: 0;
+            white-space: nowrap;
         }
 
         .navbar-brand i {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
         }
 
-        /* Navbar controls - Mobile: stacked */
         .navbar-controls {
             display: flex;
-            flex-direction: column;
             gap: 0.5rem;
-            width: 100%;
-            margin-top: 0.75rem;
+            align-items: center;
+            flex: 1;
+            margin-left: 0.75rem;
+            min-width: 0;
         }
 
-        .navbar .form-control, 
-        .navbar .form-select {
-            background-color: rgba(255, 255, 255, 0.95);
-            border: none;
+        .form-select-sm {
+            font-size: 0.85rem;
+            padding: 0.4rem 0.5rem;
             border-radius: 6px;
-            padding: 0.6rem 0.75rem;
-            font-size: 0.9rem;
-            width: 100%;
-        }
-
-        .navbar .form-control::placeholder {
-            color: #94a3b8;
-        }
-
-        /* Desktop: inline */
-        @media (min-width: 768px) {
-            .navbar-controls {
-                flex-direction: row;
-                width: auto;
-                margin-top: 0;
-                gap: 0.75rem;
-                max-width: 500px;
-            }
-
-            .navbar .form-control, 
-            .navbar .form-select {
-                width: auto;
-                flex: 1;
-            }
-
-            .navbar-brand {
-                font-size: 1.5rem;
-            }
+            min-width: 130px;
+            flex-shrink: 0;
         }
 
         /* ===== MAIN CONTAINER ===== */
         .main-container {
-            padding: 1rem;
-        }
-
-        @media (min-width: 768px) {
-            .main-container {
-                padding: 2rem 1rem;
-            }
-        }
-
-        /* ===== SUMMARY SECTION ===== */
-        .summary-section {
-            background: white;
-            padding: 1.25rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            border: 2px solid var(--primary-light);
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
-        }
-
-        .summary-title {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-            font-size: 1rem;
-        }
-
-        @media (min-width: 768px) {
-            .summary-title {
-                font-size: 1.2rem;
-            }
-        }
-
-        .info-badge {
-            display: block;
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
-            color: white;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            box-shadow: 0 2px 6px rgba(30, 58, 138, 0.2);
-            text-align: center;
-            width: 100%;
-        }
-
-        /* ===== FILTER BUTTONS ===== */
-        .filter-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        @media (min-width: 768px) {
-            .filter-buttons {
-                flex-direction: row;
-                gap: 0.75rem;
-            }
-        }
-
-        .filter-btn {
-            flex: 1;
-            padding: 0.75rem 1rem;
-            border: 2px solid var(--border-color);
-            background: white;
-            color: #475569;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            white-space: nowrap;
-        }
-
-        @media (min-width: 768px) {
-            .filter-btn {
-                font-size: 1rem;
-            }
-        }
-
-        .filter-btn:hover {
-            border-color: var(--primary-light);
-            color: var(--primary-light);
-        }
-
-        .filter-btn.active {
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
-            color: white;
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
-            transform: translateY(-2px);
+            padding: 1.5rem 0;
         }
 
         /* ===== CATEGORY BADGE ===== */
         .category-badge {
-            display: inline-block;
-            background: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
             color: white;
-            padding: 0.5rem 0.75rem;
-            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            margin: 1rem 0 0.5rem 0;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-weight: 600;
-            font-size: 0.8rem;
-            margin-bottom: 0.75rem;
-            margin-top: 1rem;
+            user-select: none;
+            transition: all 0.3s ease;
         }
 
-        @media (min-width: 768px) {
-            .category-badge {
-                padding: 0.5rem 1rem;
-                font-size: 0.85rem;
-                margin-bottom: 1rem;
-                margin-top: 1.5rem;
-            }
+        .category-badge:hover {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            transform: translateX(4px);
         }
 
-        .category-badge:first-of-type {
-            margin-top: 0;
+        .category-badge.collapsed {
+            margin-bottom: 1rem;
         }
 
-        /* ===== PRODUCT CARD ===== */
+        .category-badge .chevron {
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .category-badge.collapsed .chevron {
+            transform: rotate(-90deg);
+        }
+
+        /* ===== CATEGORY CONTENT ===== */
+        .category-content {
+            display: grid;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            max-height: 2000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            opacity: 1;
+        }
+
+        .category-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            margin-bottom: 0;
+        }
+
+        /* ===== PRODUCT ITEM ===== */
         .product-item {
             background: white;
-            border: 1px solid var(--border-color);
+            border: 2px solid var(--border-color);
             border-radius: 8px;
-            padding: 0.75rem;
-            margin-bottom: 0.5rem;
+            padding: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             transition: all 0.3s ease;
-            gap: 0.75rem;
-        }
-
-        @media (min-width: 768px) {
-            .product-item {
-                padding: 1rem;
-                margin-bottom: 0.75rem;
-            }
+            cursor: pointer;
         }
 
         .product-item:hover {
             border-color: var(--primary-light);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
         }
 
         .product-item.selected {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(30, 58, 138, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(30, 58, 138, 0.05) 100%);
             border-color: var(--primary-light);
+        }
+
+        .product-info-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
         }
 
         .product-info {
             flex: 1;
-            min-width: 0;
-        }
-
-        .product-name {
-            font-weight: 500;
-            color: #1e293b;
-            font-size: 0.85rem;
-            margin: 0;
-        }
-
-        @media (min-width: 768px) {
-            .product-name {
-                font-size: 0.95rem;
-            }
         }
 
         .product-code {
+            font-size: 0.8rem;
             color: #64748b;
-            font-size: 0.75rem;
-            font-weight: 500;
+            font-weight: 600;
             margin: 0;
         }
 
-        @media (min-width: 768px) {
-            .product-code {
-                font-size: 0.85rem;
-            }
+        .product-name {
+            font-size: 0.95rem;
+            color: #1e293b;
+            margin: 0.25rem 0 0 0;
+            font-weight: 500;
         }
 
-        /* ===== QUANTITY CONTROLS ===== */
+        .view-link-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--primary-light);
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .view-link-btn:hover {
+            background: var(--primary-color);
+            transform: scale(1.1);
+        }
+
         .quantity-control {
             display: flex;
             align-items: center;
-            gap: 0.35rem;
+            gap: 0.5rem;
             background: var(--light-bg);
+            padding: 0.35rem;
             border-radius: 6px;
-            padding: 0.2rem;
-            flex-shrink: 0;
         }
 
         .qty-btn {
             width: 32px;
             height: 32px;
             border: none;
-            background: white;
-            color: white;
             border-radius: 4px;
+            background: var(--primary-light);
+            color: white;
             cursor: pointer;
-            font-weight: 700;
             font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
-            padding: 0;
-        }
-
-        @media (min-width: 768px) {
-            .qty-btn {
-                width: 36px;
-                height: 36px;
-                font-size: 1.1rem;
-            }
         }
 
         .qty-btn.minus {
@@ -450,233 +294,212 @@
             transform: scale(1.05);
         }
 
-        .qty-display {
-            min-width: 35px;
-            text-align: center;
-            font-weight: 700;
-            color: var(--primary-color);
-            font-size: 0.9rem;
+        .qty-btn:active {
+            transform: scale(0.95);
         }
 
-        @media (min-width: 768px) {
-            .qty-display {
-                min-width: 40px;
-                font-size: 1rem;
-            }
+        .qty-display {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 600;
+            color: #1e293b;
         }
 
         /* ===== SIDEBAR ===== */
         .sidebar-section {
             background: white;
-            padding: 1.25rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
             border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
         }
 
         .sidebar-section h5 {
-            margin-bottom: 1rem;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        @media (min-width: 768px) {
-            .sidebar-section h5 {
-                font-size: 1.1rem;
-            }
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
-        .sidebar-section label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: #475569;
+        .filter-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 0.5rem 0.75rem;
+            border: 2px solid var(--border-color);
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
             font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: #64748b;
         }
 
-        @media (min-width: 768px) {
-            .sidebar-section label {
-                font-size: 0.9rem;
-            }
+        .filter-btn:hover {
+            border-color: var(--primary-light);
+            color: var(--primary-light);
         }
 
-        .sidebar-section select,
-        .sidebar-section textarea {
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        #extra {
             width: 100%;
-            padding: 0.6rem 0.75rem;
+            min-height: 100px;
             border: 1px solid var(--border-color);
             border-radius: 6px;
-            margin-bottom: 1rem;
-            font-family: 'Inter', sans-serif;
+            padding: 0.75rem;
             font-size: 0.9rem;
-        }
-
-        .sidebar-section textarea {
+            font-family: 'Inter', sans-serif;
             resize: vertical;
-            min-height: 70px;
         }
 
-        @media (min-width: 768px) {
-            .sidebar-section textarea {
-                min-height: 80px;
-            }
+        #extra:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
-        /* ===== ORDER REVIEW SECTION ===== */
+        /* ===== BUYER SECTION ===== */
+        .buyer-section {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .buyer-section label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 0.95rem;
+        }
+
+        .buyer-section input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .buyer-section input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .buyer-section input.error {
+            border-color: var(--danger-color);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+
+        /* ===== ORDER REVIEW ===== */
         .order-review-section {
             background: white;
-            padding: 1.25rem;
+            border: 2px solid var(--primary-light);
             border-radius: 8px;
-            margin-top: 1.5rem;
-            border: 2px solid var(--success-color);
-            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.1);
-        }
-
-        @media (min-width: 768px) {
-            .order-review-section {
-                padding: 1.5rem;
-                margin-top: 2rem;
-            }
+            padding: 1.5rem;
+            margin-top: 2rem;
         }
 
         .order-review-title {
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
             margin-bottom: 1rem;
-            font-size: 1rem;
-            color: var(--success-color);
-        }
-
-        @media (min-width: 768px) {
-            .order-review-title {
-                font-size: 1.2rem;
-            }
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
         }
 
         .order-item {
-            padding: 0.6rem 0;
-            border-bottom: 1px solid var(--border-color);
+            background: var(--light-bg);
+            border-left: 4px solid var(--primary-light);
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            border-radius: 4px;
+        }
+
+        .order-item-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-        }
-
-        @media (min-width: 768px) {
-            .order-item {
-                padding: 0.75rem 0;
-                font-size: 0.9rem;
-            }
-        }
-
-        .order-item:last-child {
-            border-bottom: none;
+            flex-wrap: wrap;
+            gap: 0.75rem;
         }
 
         .order-item-code {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--primary-color);
-            min-width: 60px;
-        }
-
-        @media (min-width: 768px) {
-            .order-item-code {
-                min-width: 80px;
-            }
+            font-size: 0.9rem;
         }
 
         .order-item-desc {
+            color: #1e293b;
+            font-size: 0.9rem;
             flex: 1;
-            margin: 0 0.5rem;
-            min-width: 0;
-            word-break: break-word;
         }
 
-        @media (min-width: 768px) {
-            .order-item-desc {
-                margin: 0 1rem;
-            }
-        }
-
-        .order-item-qty {
-            font-weight: 700;
-            color: var(--success-color);
-            min-width: 50px;
-            text-align: right;
-        }
-
-        @media (min-width: 768px) {
-            .order-item-qty {
-                min-width: 60px;
-            }
+        .order-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
         }
 
         .order-summary {
-            background: var(--light-bg);
-            padding: 0.75rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            font-weight: 600;
-            color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 6px;
             text-align: center;
-            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 1rem;
         }
 
-        @media (min-width: 768px) {
-            .order-summary {
-                padding: 1rem;
-                font-size: 1rem;
-            }
-        }
-
-        /* ===== ACTION BUTTONS ===== */
         .action-buttons {
             display: flex;
-            flex-direction: column;
+            justify-content: flex-end;
             gap: 0.75rem;
-            margin-top: 1.25rem;
-        }
-
-        @media (min-width: 768px) {
-            .action-buttons {
-                flex-direction: row;
-                gap: 1rem;
-                margin-top: 1.5rem;
-            }
+            margin-top: 1.5rem;
         }
 
         .action-btn {
-            flex: 1;
-            padding: 0.75rem;
+            padding: 0.75rem 1.5rem;
             border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.9rem;
+            border-radius: 6px;
             cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 0.5rem;
         }
 
-        @media (min-width: 768px) {
-            .action-btn {
-                padding: 1rem;
-                font-size: 1rem;
-            }
-        }
-
         .btn-clear {
-            background: #64748b;
+            background: var(--danger-color);
             color: white;
         }
 
         .btn-clear:hover {
-            background: #475569;
+            background: #b91c1c;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(71, 85, 105, 0.3);
         }
 
         .btn-send {
@@ -687,62 +510,193 @@
         .btn-send:hover {
             background: #15803d;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
         }
 
         /* ===== EMPTY STATE ===== */
         .empty-state {
             text-align: center;
-            padding: 2rem 1rem;
+            padding: 3rem 1rem;
             color: #94a3b8;
         }
 
-        @media (min-width: 768px) {
-            .empty-state {
-                padding: 3rem 1rem;
-            }
-        }
-
         .empty-state i {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 1rem;
-            color: #cbd5e1;
+            opacity: 0.5;
         }
 
-        @media (min-width: 768px) {
-            .empty-state i {
-                font-size: 3rem;
+        /* ===== CLEAR ALL BUTTON ===== */
+        .clear-all-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--danger-color) 0%, #991b1b 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .clear-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
             }
         }
 
-        /* ===== TOAST NOTIFICATION ===== */
-        .toast-notification {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
+        .modal-header {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .delivery-option {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .delivery-option button {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
             background: white;
-            border-left: 4px solid var(--success-color);
-            padding: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .delivery-option button.active {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        #deliveryNotes {
+            width: 100%;
+            min-height: 80px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.75rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+
+        #deliveryNotes:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-secondary {
+            background: white;
+            color: #64748b;
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-outline-secondary:hover {
+            background: var(--light-bg);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+        }
+
+        /* ===== TOAST ===== */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 2000;
+        }
+
+        .toast {
+            background: white;
+            padding: 1rem 1.5rem;
             border-radius: 6px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 1050;
-            animation: slideIn 0.3s ease;
-            font-size: 0.9rem;
-            max-width: 90vw;
+            margin-bottom: 0.75rem;
+            animation: slideInRight 0.3s ease;
         }
 
-        @media (min-width: 768px) {
-            .toast-notification {
-                max-width: 400px;
-                font-size: 1rem;
-            }
+        .toast.success {
+            border-left: 4px solid var(--success-color);
+            color: var(--success-color);
         }
 
-        .toast-notification.error {
-            border-left-color: var(--danger-color);
+        .toast.error {
+            border-left: 4px solid var(--danger-color);
+            color: var(--danger-color);
         }
 
-        @keyframes slideIn {
+        @keyframes slideInRight {
             from {
                 transform: translateX(400px);
                 opacity: 0;
@@ -751,6 +705,65 @@
                 transform: translateX(0);
                 opacity: 1;
             }
+        }
+
+        /* ===== FLOATING CART ===== */
+        .floating-cart {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.4);
+            z-index: 100;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+        }
+
+        .floating-cart:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.5);
+        }
+
+        .floating-cart.hidden {
+            display: none;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger-color);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* ===== PULSE ANIMATION ===== */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .floating-cart.pulse {
+            animation: pulse 0.5s ease;
         }
 
         /* ===== SCROLLBAR ===== */
@@ -770,9 +783,35 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
+
+        /* ===== FOOTER COM VERSÃO ===== */
+        .app-footer {
+            background-color: var(--dark-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 1rem 0;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .footer-text {
+            color: #64748b;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
+    <!-- Logo Section -->
+    <div class="logo-section">
+        <img src="logo2.png" alt="RR Lanches Logo">
+    </div>
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container-fluid px-2 px-md-3">
@@ -822,7 +861,12 @@
 
             <!-- Main Content (Mobile: full width, Desktop: 9 cols) -->
             <div class="col-12 col-lg-9 order-lg-1">
-                <!-- Products List -->
+                <!-- Buyer Name -->
+                <div class="buyer-section">
+                    <label for="comprador"><i class="bi bi-person-badge"></i> Nome do Comprador (Obrigatório)</label>
+                    <input type="text" id="comprador" placeholder="Digite seu nome completo..." required>
+                </div>
+
                 <div id="lista">
                     <!-- Products will be inserted here -->
                 </div>
@@ -841,12 +885,36 @@
                             <button class="action-btn btn-clear" onclick="limpar()">
                                 <i class="bi bi-trash"></i> <span>Limpar</span>
                             </button>
-                            <button class="action-btn btn-send" onclick="enviar()">
+                            <button class="action-btn btn-send" onclick="openDeliveryModal()">
                                 <i class="bi bi-whatsapp"></i> <span>Enviar</span>
                             </button>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delivery Modal -->
+    <div id="deliveryModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">📦 Finalizar Pedido</div>
+            <div class="modal-body">
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.75rem; font-weight: 600;">Deseja entrega?</label>
+                    <div class="delivery-option">
+                        <button id="optNao" class="active" onclick="setDeliveryOption(false)">Não</button>
+                        <button id="optSim" onclick="setDeliveryOption(true)">Sim</button>
+                    </div>
+                </div>
+                <div id="deliveryNotesArea" style="display: none;">
+                    <label for="deliveryNotes" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Detalhes da entrega:</label>
+                    <textarea id="deliveryNotes" placeholder="Horário, endereço, instruções especiais..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary" onclick="closeDeliveryModal()">Cancelar</button>
+                <button class="btn btn-primary" onclick="confirmAndSend()">Finalizar e Enviar</button>
             </div>
         </div>
     </div>
@@ -861,258 +929,162 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        let produtos = [], lojas = [], qtd = {}, modo = "todos", hold = null;
+        let produtos = [], lojas = [], qtd = {}, modo = "todos", hold = null, collapsedCats = {};
+        const STORAGE_KEY_CART = 'rr_lanches_cart';
+        const STORAGE_KEY_BUYER = 'rr_lanches_buyer';
+        const WHATSAPP_NUMBER = '5515997094000';
 
-        // Initialize
-        async function init() {
-            try {
-                // Load products
-                produtos = [
-  // Isopor
-  { codigo: "116", descricao: "TH-002 - CAIXA ISOPOR C/400", categoria: "Isopor", embalagem: "fd" },
-  { codigo: "113", descricao: "TH-003 - CAIXA ISOPOR C/400", categoria: "Isopor", embalagem: "fd" },
-
-  // Sacola
-  { codigo: "1032", descricao: "SACOLA BALCAO 35X45", categoria: "Sacola", embalagem: "pct" },
-  { codigo: "024", descricao: "SACOLA ENTREGA 38X48", categoria: "Sacola", embalagem: "pct" },
-
-  // Copos
-  { codigo: "108", descricao: "COPO 50ML CAFÉ C/100", categoria: "Copos", embalagem: "pct" },
-  { codigo: "100", descricao: "COPO 180ML C/100", categoria: "Copos", embalagem: "pct" },
-  { codigo: "100", descricao: "COPO 180ML C/100 Caixa C/2.500", categoria: "Copos", embalagem: "cx" },
-  { codigo: "111", descricao: "COPO 300ML C/100", categoria: "Copos", embalagem: "pct" },
-  { codigo: "111", descricao: "COPO 300ML Caixa C/1.000", categoria: "Copos", embalagem: "cx" },
-
-  // Lixo
-  { codigo: "441", descricao: "ROLO SACO LIXO 30L C/50", categoria: "Lixo", embalagem: "pct" },
-  { codigo: "905", descricao: "SACO LIXO 100L C/ALÇA C/30", categoria: "Lixo", embalagem: "fd" },
-
-  // Papel
-  { codigo: "482", descricao: "GUARDANAPO INTER. 10X21 - CX", categoria: "Papel", embalagem: "cx" },
-  { codigo: "305", descricao: "LACRE DE SEG. VERM C/1.000", categoria: "Papel", embalagem: "rl" },
-  { codigo: "155", descricao: "PALITO SACHE - C/1.000", categoria: "Papel", embalagem: "cx" },
-  { codigo: "177", descricao: "PAPEL HIGIENICO ROLAO C/8", categoria: "Papel", embalagem: "fd" },
-  { codigo: "1375", descricao: "PAPEL TOALHA ROLO 200MTS C/6", categoria: "Papel", embalagem: "fd" },
-  { codigo: "173", descricao: "PAPEL INTERF. BANH. C/6.000", categoria: "Papel", embalagem: "fd" },
-
-  // Plásticos
-  { codigo: "020", descricao: "BOBINA PIC. 20X30 - PEQUENA", categoria: "Plásticos", embalagem: "rl" },
-  { codigo: "021", descricao: "BOBINA PIC. 35X45 - GRANDE", categoria: "Plásticos", embalagem: "rl" },
-  { codigo: "431", descricao: "CANUDO SACHÊ C/500", categoria: "Plásticos", embalagem: "pct" },
-  { codigo: "137", descricao: "FITA ADESIVA C/10", categoria: "Plásticos", embalagem: "pct" },
-  { codigo: "1098", descricao: "CHUP CHUP 100X100 (FARDO)", categoria: "Plásticos", embalagem: "fdn" },
-
-  // Limpeza - SEM Cabo
-  { codigo: "283", descricao: "LIMPA AZULEJO 25CM", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
-  { codigo: "1325", descricao: "MEGA L. AZULEJO 40CM", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
-  { codigo: "1070", descricao: "PA DE LIXO PLASTICO", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
-  { codigo: "1178", descricao: "RODO DE PIA", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
-  { codigo: "288", descricao: "RODO PLASTICO 40CM", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
-  { codigo: "286", descricao: "RODO PLASTICO 60CM", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
-  { codigo: "282", descricao: "VASSOURA COM CAPA", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
-  { codigo: "290", descricao: "DESENTUPIDOR WC", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
-  { codigo: "281", descricao: "CABO DE MADEIRA 1,20CM", categoria: "Limpeza - SEM Cabo", embalagem: "und" },
-
-  // Limpeza - Galões
-  { codigo: "717", descricao: "ALCOOL 70° LIQ. 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
-  { codigo: "781", descricao: "ALCOOL 70° GEL. 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
-  { codigo: "884", descricao: "LIMPA TUDO YAN 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
-  { codigo: "039", descricao: "DESINFETANTE CASA LIMPA 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
-  { codigo: "040", descricao: "DESINFETANTE EUCALIPTO 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
-  { codigo: "038", descricao: "DESINFETANTE LAVANDA 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
-  { codigo: "037", descricao: "DESINFETANTE NATURE 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
-  { codigo: "027", descricao: "LIMPA ALUMINIO 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
-  { codigo: "033", descricao: "CLORO GEL 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
-  { codigo: "583", descricao: "REMOVEDOR PER 900ML LAV.", categoria: "Limpeza - Galões", embalagem: "fr" },
-  { codigo: "041", descricao: "SABONETE LIQ. DOW 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
-  { codigo: "032", descricao: "SABONETE LIQ. ERVA D. 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
-  { codigo: "1129", descricao: "GRILL ALCALINO START 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
-  { codigo: "248", descricao: "CERA INCOLOR 5L", categoria: "Limpeza - Galões", embalagem: "gl" },
-
-  // Limpeza - Produtos
-  { codigo: "1063", descricao: "DES CONCEN. AZULIM 140ML", categoria: "Limpeza - Produtos", embalagem: "fr" },
-  { codigo: "923", descricao: "DIFUSOR DE AROMA PIA 300ML", categoria: "Limpeza - Produtos", embalagem: "fr" },
-  { codigo: "972", descricao: "LUSTRA-MOVEIS 200ML YAN", categoria: "Limpeza - Produtos", embalagem: "fr" },
-  { codigo: "930", descricao: "GEL SANITARIO C/APLICADOR LAV.", categoria: "Limpeza - Produtos", embalagem: "und" },
-  { codigo: "931", descricao: "GEL SANITARIO C/APLICADOR MAR.", categoria: "Limpeza - Produtos", embalagem: "und" },
-  { codigo: "235", descricao: "PEDRA SANITARIA C/12", categoria: "Limpeza - Produtos", embalagem: "pct" },
-  { codigo: "422", descricao: "SABAO EM BARRA C/5", categoria: "Limpeza - Produtos", embalagem: "pct" },
-  { codigo: "078", descricao: "SABAO EM PO 800GR YAN", categoria: "Limpeza - Produtos", embalagem: "pct" },
-  { codigo: "513", descricao: "INSETICIDA AEROSOL BAYGON", categoria: "Limpeza - Produtos", embalagem: "fr" },
-
-  // Limpeza - Acessórios
-  { codigo: "216", descricao: "AVENTAL DE VINIL", categoria: "Limpeza - Acessórios", embalagem: "und" },
-  { codigo: "517", descricao: "ESPONJA DUPLA FACE C/4", categoria: "Limpeza - Acessórios", embalagem: "pct" },
-  { codigo: "423", descricao: "LA DE ACO ASSOLAN C/8", categoria: "Limpeza - Acessórios", embalagem: "pct" },
-  { codigo: "1180", descricao: "ESPONJA YPE AZUL C/3", categoria: "Limpeza - Acessórios", embalagem: "pct" },
-  { codigo: "357", descricao: "FIBRACO SCOTCH 3M C/5", categoria: "Limpeza - Acessórios", embalagem: "pct" },
-  { codigo: "145", descricao: "MASCARA DESCARTAVEL C/50", categoria: "Limpeza - Acessórios", embalagem: "pct" },
-  { codigo: "136", descricao: "TOUCA TNT BRANCA C/100", categoria: "Limpeza - Acessórios", embalagem: "pct" },
-  { codigo: "294", descricao: "REDE PRETA - C/10", categoria: "Limpeza - Acessórios", embalagem: "pct" },
-  { codigo: "1008", descricao: "ASSENTO SANITARIO", categoria: "Limpeza - Acessórios", embalagem: "und" },
-  { codigo: "571", descricao: "BALDE 15L TOYPLAST ALCA PLASTICA", categoria: "Limpeza - Acessórios", embalagem: "und" },
-  { codigo: "233", descricao: "BORRIFADOR PEAD 500ML", categoria: "Limpeza - Acessórios", embalagem: "und" },
-
-  // Limpeza - Panos
-  { codigo: "166", descricao: "SACO ALVEJADO XADREZ AZUL C/5", categoria: "Limpeza - Panos", embalagem: "pct" },
-  { codigo: "1013", descricao: "SACO ALVEJADO BRANCO C/10", categoria: "Limpeza - Panos", embalagem: "pct" },
-  { codigo: "135", descricao: "PANO MULTIUSO AZUL C/600", categoria: "Limpeza - Panos", embalagem: "rl" },
-
-  // Limpeza - Luvas
-  { codigo: "147", descricao: "SEM PO G - LUVA DE VINIL - C/100", categoria: "Limpeza - Luvas", embalagem: "cx" },
-  { codigo: "149", descricao: "SEM PO M - LUVA DE VINIL - C/100", categoria: "Limpeza - Luvas", embalagem: "cx" },
-  { codigo: "804", descricao: "SEM PO P - LUVA DE VINIL - C/100", categoria: "Limpeza - Luvas", embalagem: "cx" },
-  { codigo: "582", descricao: "LUVA AMARELA - G PAR", categoria: "Limpeza - Luvas", embalagem: "pct" },
-  { codigo: "139", descricao: "LUVA AMARELA - M PAR", categoria: "Limpeza - Luvas", embalagem: "pct" },
-  { codigo: "618", descricao: "LUVA AMARELA - P PAR", categoria: "Limpeza", embalagem: "pct" },
-
-  // Escritório
-  { codigo: "744", descricao: "BOBINA BRANCA CUPOM FIS C/15", categoria: "Escritório", embalagem: "cx" },
-  { codigo: "223", descricao: "PAPEL SULFITE C/500", categoria: "Escritório", embalagem: "pct" },
-  { codigo: "1480", descricao: "CANETA DETECTORA CEDULAS FALSAS", categoria: "Escritório", embalagem: "und" },
-  { codigo: "1158", descricao: "CANITA AZUL TIPO BIC", categoria: "Escritório", embalagem: "und" },
-  { codigo: "813", descricao: "GRAMPO GALVANIZADO 26/6 C/5000", categoria: "Escritório", embalagem: "cx" },
-  { codigo: "816", descricao: "MARCA TEXTO AMARELO", categoria: "Escritório", embalagem: "und" },
-  { codigo: "1478", descricao: "MARCA TEXTO ROSA", categoria: "Escritório", embalagem: "und" },
-  { codigo: "1475", descricao: "MARCA TEXTO VERDE", categoria: "Escritório", embalagem: "und" },
-  { codigo: "817", descricao: "REGUA PLASTICA 30CM", categoria: "Escritório", embalagem: "und" },
-  { codigo: "1160", descricao: "CADERNO CD 1 MATERIA C/80FLS", categoria: "Escritório", embalagem: "und" },
-  { codigo: "834", descricao: "ELASTICO DINHEIRO MAMUTH C/600", categoria: "Escritório", embalagem: "pct" }
-                ];
-
-                // Load stores
-                lojas = [
-                    { codigo: "114", nome: "PADRE MADUREIRA" },
-                    { codigo: "2526", nome: "ZONA NORTE" },
-                    { codigo: "2527", nome: "ARMANDO PANUNZIO" },
-                    { codigo: "2528", nome: "LOJA EDEN" },
-                    { codigo: "3466", nome: "VOTORANTIM (CADI)" },
-                    { codigo: "4108", nome: "LOJA ITU (CADI)" },
-                    { codigo: "4115", nome: "INDAIATUBA" }
-                ];
-
-                // Populate stores
-                const lojaSelect = document.getElementById("loja");
-                lojas.forEach(l => {
-                    const option = document.createElement("option");
-                    option.value = `${l.codigo} - ${l.nome}`;
-                    option.textContent = `${l.codigo} - ${l.nome}`;
-                    lojaSelect.appendChild(option);
-                });
-
-                render();
-            } catch (error) {
-                console.error("Erro ao inicializar:", error);
-                showToast("Erro ao carregar dados", "error");
-            }
+        function toggleCat(catName) {
+            collapsedCats[catName] = !collapsedCats[catName];
+            render();
         }
 
-        // Render products
+        function pulseCart() {
+            const cart = document.getElementById("floatingCart");
+            cart.classList.add("pulse");
+            setTimeout(() => cart.classList.remove("pulse"), 500);
+        }
+
         function render() {
             const termo = document.getElementById("busca").value.toLowerCase();
             const lista = document.getElementById("lista");
             lista.innerHTML = "";
-
-            let cat = "", totalVol = 0, itemCount = 0;
+            const hasItems = Object.values(qtd).some(v => v > 0);
+            if (hasItems && modo === "todos" && !termo) {
+                const clearBtn = document.createElement("button");
+                clearBtn.className = "clear-all-btn";
+                clearBtn.innerHTML = '<i class="bi bi-trash"></i> Limpar Todo o Pedido';
+                clearBtn.onclick = limparTudo;
+                lista.appendChild(clearBtn);
+            }
+            let cat = "", currentCatContent = null;
+            
+            // Contar quantas vezes cada código aparece
+            const codigoCount = {};
+            produtos.forEach(p => {
+                if (!p.descricao.toLowerCase().includes(termo) && !p.codigo.includes(termo)) return;
+                codigoCount[p.codigo] = (codigoCount[p.codigo] || 0) + 1;
+            });
+            
+            // Rastrear qual é a ocorrência de cada código
+            const codigoOccurrence = {};
 
             produtos.forEach(p => {
-                const q = qtd[p.codigo] || 0;
-
+                const chaveUnica = `${p.codigo}_${p.embalagem}`;
+                const q = qtd[chaveUnica] || 0;
                 if (!p.descricao.toLowerCase().includes(termo) && !p.codigo.includes(termo)) return;
                 if (modo === "sel" && q === 0) return;
 
-                // Add category header
                 if (p.categoria !== cat) {
                     cat = p.categoria;
+                    const isCollapsed = collapsedCats[cat] || false;
                     const categoryDiv = document.createElement("div");
-                    categoryDiv.className = "category-badge";
-                    categoryDiv.innerHTML = `<i class="bi bi-tag"></i> ${cat}`;
+                    categoryDiv.className = "category-badge" + (isCollapsed ? " collapsed" : "");
+                    categoryDiv.innerHTML = `<span><i class="bi bi-tag"></i> ${cat}</span><i class="bi bi-chevron-down chevron"></i>`;
+                    categoryDiv.onclick = () => toggleCat(p.categoria);
                     lista.appendChild(categoryDiv);
+                    
+                    currentCatContent = document.createElement("div");
+                    currentCatContent.className = "category-content" + (isCollapsed ? " collapsed" : "");
+                    lista.appendChild(currentCatContent);
+                }
+                
+                // Incrementar ocorrência deste código
+                codigoOccurrence[p.codigo] = (codigoOccurrence[p.codigo] || 0) + 1;
+                const isFirstOccurrence = codigoOccurrence[p.codigo] === 1;
+                const hasMultipleOccurrences = codigoCount[p.codigo] > 1;
+                
+                // Determinar o código a exibir
+                let codigoExibicao = p.codigo;
+                if (!isFirstOccurrence && hasMultipleOccurrences) {
+                    codigoExibicao = `${p.codigo} (${p.embalagem})`;
                 }
 
-                if (q > 0) totalVol += q;
-
-                // Add product item
                 const itemDiv = document.createElement("div");
                 itemDiv.className = `product-item ${q > 0 ? "selected" : ""}`;
+                const linkHtml = p.link ? `<a href="${p.link}" target="_blank" class="view-link-btn"><i class="bi bi-eye"></i></a>` : "";
                 itemDiv.innerHTML = `
-                    <div class="product-info">
-                        <p class="product-code">${p.codigo}</p>
-                        <p class="product-name">${p.descricao}</p>
+                    <div class="product-info-wrapper">
+                        <div class="product-info">
+                            <p class="product-code">${codigoExibicao}</p>
+                            <p class="product-name">${p.descricao}</p>
+                        </div>
+                        ${linkHtml}
                     </div>
                     <div class="quantity-control">
-                        <button class="qty-btn minus" onmousedown="segurar('${p.codigo}')" onmouseup="parar()" ontouchstart="segurar('${p.codigo}')" ontouchend="parar()" onclick="menos('${p.codigo}')">−</button>
+                        <button class="qty-btn minus" onclick="menos('${chaveUnica}')">−</button>
                         <div class="qty-display">${q}</div>
-                        <button class="qty-btn plus" onclick="mais('${p.codigo}')">+</button>
+                        <button class="qty-btn plus" onclick="mais('${chaveUnica}')">+</button>
                     </div>
                 `;
-                lista.appendChild(itemDiv);
+                currentCatContent.appendChild(itemDiv);
             });
-
-            // Check if there are results
             if (lista.children.length === 0) {
-                lista.innerHTML = `
-                    <div class="empty-state">
-                        <i class="bi bi-search"></i>
-                        <p>Nenhum produto encontrado</p>
-                    </div>
-                `;
+                lista.innerHTML = '<div class="empty-state"><i class="bi bi-search"></i><p>Nenhum produto encontrado</p></div>';
             }
-
-            // Update summary (removed from sidebar)
-
-            // Update order review
             updateOrderReview();
-
-            // Update floating cart
             updateFloatingCart();
         }
 
-        // Update order review section
         function updateOrderReview() {
-            const itemCount = Object.values(qtd).filter(v => v > 0).length;
+            const items = produtos.filter(p => {
+                const chaveUnica = `${p.codigo}_${p.embalagem}`;
+                return (qtd[chaveUnica] || 0) > 0;
+            });
             const orderReview = document.getElementById("orderReview");
-
-            if (itemCount === 0) {
+            const painel = document.getElementById("painel");
+            
+            if (items.length === 0) {
                 orderReview.style.display = "none";
-                updateFloatingCart();
                 return;
             }
-
+            
             orderReview.style.display = "block";
-
-            const painel = document.getElementById("painel");
-            let html = "";
-
-            let i = 0;
             let totalVol = 0;
-            produtos.forEach(p => {
-                if (qtd[p.codigo] > 0) {
-                    totalVol += qtd[p.codigo];
-                    html += `
-                        <div class="order-item">
-                            <div class="order-item-code">${p.codigo}</div>
-                            <div class="order-item-desc">${p.descricao}</div>
-                            <div class="order-item-qty">${qtd[p.codigo]} ${p.embalagem}</div>
-                        </div>
-                    `;
-                    i++;
+            const html = items.map(p => {
+                const chaveUnica = `${p.codigo}_${p.embalagem}`;
+                const q = qtd[chaveUnica] || 0;
+                totalVol += q;
+                
+                // Determinar código a exibir
+                const codigoCount = produtos.filter(prod => prod.codigo === p.codigo).length;
+                let codigoExibicao = p.codigo;
+                if (codigoCount > 1 && p.embalagem) {
+                    codigoExibicao = `${p.codigo} (${p.embalagem})`;
                 }
-            });
-
-            html += `<div class="order-summary">Total: ${i} item${i > 1 ? "s" : ""} | Volumes: ${totalVol}</div>`;
-            painel.innerHTML = html;
+                
+                return `
+                    <div class="order-item">
+                        <div class="order-item-info">
+                            <div class="order-item-code">${codigoExibicao}</div>
+                            <div class="order-item-desc">${p.descricao}</div>
+                            <div class="order-item-actions" style="background: var(--light-bg); padding: 0.2rem; border-radius: 6px; display: inline-flex; gap: 0.35rem;">
+                                <button class="qty-btn minus" style="width: 28px; height: 28px; font-size: 0.9rem;" onclick="menos('${chaveUnica}')">−</button>
+                                <span class="mx-2"><strong>${q}</strong> ${p.embalagem}</span>
+                                <button class="qty-btn plus" style="width: 28px; height: 28px; font-size: 0.9rem;" onclick="mais('${chaveUnica}')">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+            painel.innerHTML = html + `<div class="order-summary">Total: ${items.length} item(s) | Volumes: ${totalVol}</div>`;
         }
 
         // Quantity functions
         function mais(c) {
             qtd[c] = (qtd[c] || 0) + 1;
+            pulseCart();
+            saveState();
             render();
         }
 
         function menos(c) {
-            if (qtd[c]) qtd[c]--;
-            render();
+            if (qtd[c] > 0) {
+                qtd[c]--;
+                pulseCart();
+                saveState();
+                render();
+            }
         }
 
         function segurar(c) {
@@ -1136,81 +1108,158 @@
             }
         }
 
+        function limparTudo() {
+            limpar();
+        }
+
         // Generate order number
         function gerarNumero() {
             const d = new Date();
-            return "RR" + String(d.getDate()).padStart(2, "0") + String(d.getMonth() + 1).padStart(2, "0") + d.getFullYear().toString().slice(2) + "-" + String(d.getHours()).padStart(2, "0") + String(d.getMinutes()).padStart(2, "0");
+            return "PED" + String(d.getDate()).padStart(2, "0") + String(d.getMonth() + 1).padStart(2, "0") + d.getFullYear().toString().slice(2) + "-" + String(d.getHours()).padStart(2, "0") + String(d.getMinutes()).padStart(2, "0");
+        }
+
+        let deliveryOption = false;
+
+        function setDeliveryOption(val) {
+            deliveryOption = val;
+            document.getElementById('optSim').classList.toggle('active', val);
+            document.getElementById('optNao').classList.toggle('active', !val);
+            document.getElementById('deliveryNotesArea').style.display = val ? 'block' : 'none';
+            if (val) document.getElementById('deliveryNotes').focus();
+        }
+
+        function openDeliveryModal() {
+            const comprador = document.getElementById("comprador");
+            if (!comprador.value.trim()) {
+                comprador.classList.add("error");
+                comprador.focus();
+                showToast("Por favor, informe seu nome", "error");
+                return;
+            }
+            comprador.classList.remove("error");
+            
+            document.getElementById("deliveryModal").style.display = "flex";
+            setDeliveryOption(false);
+        }
+
+        function closeDeliveryModal() {
+            document.getElementById("deliveryModal").style.display = "none";
+        }
+
+        function confirmAndSend() {
+            const msg = montar();
+            if (msg) {
+                window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg));
+                showToast("Pedido enviado com sucesso!");
+                closeDeliveryModal();
+            }
         }
 
         // Build message
         function montar() {
-            const lojaSelect = document.getElementById("loja");
-            if (!lojaSelect.value) {
-                showToast("Selecione uma loja", "error");
+            const items = produtos.filter(p => {
+                const chaveUnica = `${p.codigo}_${p.embalagem}`;
+                return (qtd[chaveUnica] || 0) > 0;
+            });
+            
+            if (items.length === 0) {
+                showToast("Nenhum produto selecionado", "error");
                 return null;
             }
-
-            let msg = `*Pedido* Nº: ${gerarNumero()}\n`;
-            msg += `Loja: ${lojaSelect.value}\n\n*Itens*\n`;
-
-            let total = 0;
-            produtos.forEach(p => {
-                if (qtd[p.codigo] > 0) {
-                    total++;
-                    msg += `${p.codigo} - ${p.descricao} = ${qtd[p.codigo]} ${p.embalagem}\n`;
+            
+            const comprador = document.getElementById("comprador").value.trim();
+            const loja = document.getElementById("loja").value;
+            const lojaNome = lojas.find(l => l.codigo === loja)?.nome || loja;
+            const extra = document.getElementById("extra").value.trim();
+            const pedidoNum = gerarNumero();
+            
+            let msg = `🛒 *PEDIDO #${pedidoNum}*\n`;
+            msg += `👤 Comprador: ${comprador}\n`;
+            msg += `🏪 Loja: ${lojaNome}\n`;
+            msg += `📅 Data: ${new Date().toLocaleDateString('pt-BR')}\n`;
+            msg += `\n*ITENS DO PEDIDO:*\n`;
+            
+            items.forEach(p => {
+                const chaveUnica = `${p.codigo}_${p.embalagem}`;
+                const q = qtd[chaveUnica];
+                const codigoCount = produtos.filter(prod => prod.codigo === p.codigo).length;
+                let codigoExibicao = p.codigo;
+                if (codigoCount > 1 && p.embalagem) {
+                    codigoExibicao = `${p.codigo} (${p.embalagem})`;
                 }
+                msg += `[${codigoExibicao}] x${q} (${p.embalagem}) ${p.descricao}\n`;
             });
-
-            const extra = document.getElementById("extra").value;
+            
             if (extra) {
-                msg += `\n*OBSERVAÇÕES OU FALTAS*\n${extra}\n`;
+                msg += `\n📝 *OBSERVAÇÕES:*\n${extra}\n`;
             }
-
-            msg += `\n---------------\n*TOTAL DE ITENS:* ${total}`;
+            
+            if (deliveryOption) {
+                const notes = document.getElementById("deliveryNotes").value.trim();
+                msg += `\n🚚 *ENTREGA:*\n${notes || "Conforme combinado"}\n`;
+            }
+            
+            msg += `\n✅ Pedido enviado via App FBF`;
+            
             return msg;
         }
 
-        // Send order
-        function enviar() {
-            const lojaSelect = document.getElementById("loja");
-            if (!lojaSelect.value) {
-                showToast("Selecione uma loja", "error");
-                return;
-            }
-
-            const msg = montar();
-            if (msg) {
-                window.open("https://wa.me/5515997094000?text=" + encodeURIComponent(msg));
-                showToast("Pedido enviado com sucesso!");
-            }
+        // Save and load state
+        function saveState() {
+            localStorage.setItem(STORAGE_KEY_CART, JSON.stringify(qtd));
+            localStorage.setItem(STORAGE_KEY_BUYER, document.getElementById("comprador").value);
         }
 
+        function loadState() {
+            const saved = localStorage.getItem(STORAGE_KEY_CART);
+            const savedBuyer = localStorage.getItem(STORAGE_KEY_BUYER);
+            if (saved) qtd = JSON.parse(saved);
+            if (savedBuyer) document.getElementById("comprador").value = savedBuyer;
+        }
+
+        // Toast notification
+        function showToast(msg, type = "success") {
+            const container = document.querySelector(".toast-container") || (() => {
+                const div = document.createElement("div");
+                div.className = "toast-container";
+                document.body.appendChild(div);
+                return div;
+            })();
+            
+            const toast = document.createElement("div");
+            toast.className = `toast ${type}`;
+            toast.textContent = msg;
+            container.appendChild(toast);
+            
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Search
+        function limparBusca() {
+            document.getElementById("busca").value = "";
+            document.getElementById("btnLimparBusca").style.display = "none";
+            render();
+        }
+
+        document.getElementById("busca").addEventListener("input", (e) => {
+            document.getElementById("btnLimparBusca").style.display = e.target.value ? "block" : "none";
+            render();
+        });
+
         // Filter buttons
-        document.getElementById("btnTodos").addEventListener("click", function() {
+        document.getElementById("btnTodos").addEventListener("click", () => {
             modo = "todos";
             document.getElementById("btnTodos").classList.add("active");
             document.getElementById("btnSel").classList.remove("active");
             render();
         });
 
-        document.getElementById("btnSel").addEventListener("click", function() {
+        document.getElementById("btnSel").addEventListener("click", () => {
             modo = "sel";
             document.getElementById("btnSel").classList.add("active");
             document.getElementById("btnTodos").classList.remove("active");
             render();
         });
-
-        document.getElementById("busca").addEventListener("input", function() {
-            const btnLimpar = document.getElementById("btnLimparBusca");
-            btnLimpar.style.display = this.value ? "flex" : "none";
-            render();
-        });
-
-        function limparBusca() {
-            document.getElementById("busca").value = "";
-            document.getElementById("btnLimparBusca").style.display = "none";
-            render();
-        }
 
         // Update floating cart
         function updateFloatingCart() {
@@ -1229,31 +1278,39 @@
         // Scroll to order review
         function scrollToReview() {
             const orderReview = document.getElementById("orderReview");
-            if (orderReview && orderReview.style.display !== "none") {
+            if (orderReview.style.display !== "none") {
                 orderReview.scrollIntoView({ behavior: "smooth", block: "start" });
             }
         }
 
-        // Toast notification
-        function showToast(message, type = "success") {
-            const toast = document.createElement("div");
-            toast.className = `toast-notification ${type === "error" ? "error" : ""}`;
-            toast.innerHTML = `
-                <i class="bi bi-${type === "error" ? "exclamation-circle" : "check-circle"}"></i>
-                ${message}
-            `;
-            document.body.appendChild(toast);
+        // Initialize
+        window.addEventListener("load", () => {
+            produtos = [{"categoria": "Isopor", "codigo": "116", "descricao": "TH-002 - CAIXA ISOPOR C/400", "embalagem": "FD", "link": "https://fbfdistribuidora.com.br/produto/th-002-hamburgueira-eps-146x146x68mm-c-100-totalplast/"}, {"categoria": "Isopor", "codigo": "113", "descricao": "TH-003 - CAIXA ISOPOR C/400", "embalagem": "FD", "link": "https://fbfdistribuidora.com.br/produto/th-003-hamburgueira-eps-162x162x86mm-c-100-totalplast/"}, {"categoria": "Sacola", "codigo": "1032", "descricao": "SACOLA BALCAO 35X45", "embalagem": "PCT", "link": "https://fbfdistribuidora.com.br/produto/sacola-b1-35x45-300kg-450-unidades-estrusapack/"}, {"categoria": "Sacola", "codigo": "24", "descricao": "SACOLA ENTREGA 38X48", "embalagem": "PCT", "link": ""}, {"categoria": "Copos", "codigo": "108", "descricao": "COPO 50ML CAFÉ C/100", "embalagem": "PCT", "link": "https://fbfdistribuidora.com.br/produto/copo-50ml-ps-transparente-estriado-c-100-totalplast/"}, {"categoria": "Copos", "codigo": "100", "descricao": "COPO 180ML C/100", "embalagem": "PCT", "link": "https://fbfdistribuidora.com.br/produto/copo-180ml-ps-transparente-estriado-c-100-totalplast/"}, {"categoria": "Copos", "codigo": "100", "descricao": "COPO 180ML C/100 Caixa C/2.500", "embalagem": "CX", "link": ""}, {"categoria": "Copos", "codigo": "111", "descricao": "COPO 300ML C/100", "embalagem": "PCT", "link": "https://fbfdistribuidora.com.br/produto/copo-300ml-ps-transparente-estriado-c-100-totalplast/"}, {"categoria": "Copos", "codigo": "111", "descricao": "COPO 300ML Caixa C/1.000", "embalagem": "CX", "link": ""}, {"categoria": "Lixo", "codigo": "441", "descricao": "ROLO SACO LIXO 30L C/50", "embalagem": "PCT", "link": "https://fbfdistribuidora.com.br/produto/rolo-saco-de-lixo-30-litros-59x62x003-c-50-embalac/"}, {"categoria": "Lixo", "codigo": "905", "descricao": "SACO LIXO 100L C/ALÇA C/30", "embalagem": "FD", "link": "https://fbfdistribuidora.com.br/produto/saco-de-lixo100l-58x106cm-com-alca-30-unidades-easybag/"}, {"categoria": "Papel", "codigo": "482", "descricao": "GUARDANAPO INTER. 10X21 - CX", "embalagem": "CX", "link": ""}, {"categoria": "Papel", "codigo": "305", "descricao": "LACRE DE SEG. VERM C/1.000", "embalagem": "RL", "link": "https://fbfdistribuidora.com.br/produto/lacre-de-seguranca-vermelho-23x95-c-1-000-gforte/"}, {"categoria": "Papel", "codigo": "155", "descricao": "PALITO SACHE - C/1.000", "embalagem": "CX", "link": ""}, {"categoria": "Papel", "codigo": "177", "descricao": "PAPEL HIGIENICO ROLAO C/8", "embalagem": "FD", "link": ""}, {"categoria": "Papel", "codigo": "1375", "descricao": "PAPEL TOALHA ROLO 200MTS C/6", "embalagem": "FD", "link": ""}, {"categoria": "Papel", "codigo": "173", "descricao": "PAPEL INTERF. BANH. C/6.000", "embalagem": "FD", "link": ""}, {"categoria": "Plásticos", "codigo": "20", "descricao": "BOBINA PIC. 20X30 - PEQUENA", "embalagem": "RL", "link": ""}, {"categoria": "Plásticos", "codigo": "21", "descricao": "BOBINA PIC 35X45 - GRANDE", "embalagem": "RL", "link": ""}, {"categoria": "Plásticos", "codigo": "431", "descricao": "CANUDO SACHÊ C/500", "embalagem": "PCT", "link": ""}, {"categoria": "Plásticos", "codigo": "137", "descricao": "FITA ADESIVA C/10", "embalagem": "PCT", "link": ""}, {"categoria": "Plásticos", "codigo": "1098", "descricao": "CHUP CHUP 100X100 (FARDO)", "embalagem": "FDN", "link": "https://fbfdistribuidora.com.br/produto/saco-chup-chup-plastico-4x23cm-c-100/"}, {"categoria": "Limpeza - SEM Cabo", "codigo": "283", "descricao": "LIMPA AZULEJO 25CM", "embalagem": "UND", "link": ""}, {"categoria": "Limpeza - SEM Cabo", "codigo": "1325", "descricao": "MEGA L. AZULEJO 40CM", "embalagem": "UND", "link": ""}, {"categoria": "Limpeza - SEM Cabo", "codigo": "1070", "descricao": "PA DE LIXO PLASTICO", "embalagem": "UND", "link": ""}, {"categoria": "Limpeza - SEM Cabo", "codigo": "1178", "descricao": "RODO DE PIA", "embalagem": "UND", "link": ""}, {"categoria": "Limpeza - SEM Cabo", "codigo": "288", "descricao": "RODO PLASTICO 40CM", "embalagem": "UND", "link": ""}, {"categoria": "Limpeza - SEM Cabo", "codigo": "286", "descricao": "RODO PLASTICO 60CM", "embalagem": "UND", "link": ""}, {"categoria": "Limpeza - SEM Cabo", "codigo": "282", "descricao": "VASSOURA COM CAPA", "embalagem": "UND", "link": ""}, {"categoria": "Limpeza - SEM Cabo", "codigo": "290", "descricao": "DESENTUPIDOR WC", "embalagem": "UND", "link": ""}, {"categoria": "Limpeza - SEM Cabo", "codigo": "281", "descricao": "CABO DE MADEIRA 1,20CM", "embalagem": "UND", "link": ""}, {"categoria": "Limpeza - Galões", "codigo": "717", "descricao": "ALCOOL 70º LIQ. 5L", "embalagem": "GL", "link": "https://fbfdistribuidora.com.br/produto/alcool-liquido-5lt-70o-clarity/"}, {"categoria": "Limpeza - Galões", "codigo": "781", "descricao": "ALCOOL 70º GEL. 5L", "embalagem": "GL", "link": "https://fbfdistribuidora.com.br/produto/alcool-gel-bactericida-5l-44kg-70o-inpm-clarity/"}, {"categoria": "Limpeza - Galões", "codigo": "884", "descricao": "LIMPA TUDO YAN 5L", "embalagem": "GL", "link": ""}, {"categoria": "Limpeza - Galões", "codigo": "39", "descricao": "DESINFETANTE CASA LIMPA 5L", "embalagem": "GL", "link": "https://fbfdistribuidora.com.br/produto/desinfetante-uso-geral-casa-limpa-5-litros-mgd/"}, {"categoria": "Limpeza - Galões", "codigo": "40", "descricao": "DESINFETANTE EUCALIPTO 5L", "embalagem": "GL", "link": "https://fbfdistribuidora.com.br/produto/desinfetante-uso-geral-eucalipto-5-litros-mgd/"}, {"categoria": "Limpeza - Galões", "codigo": "38", "descricao": "DESINFETANTE LAVANDA 5L", "embalagem": "GL", "link": "https://fbfdistribuidora.com.br/produto/desinfetante-uso-geral-lavanda-5-litros-mgd/"}, {"categoria": "Limpeza - Galões", "codigo": "37", "descricao": "DESINFETANTE NATURE 5L", "embalagem": "GL", "link": "https://fbfdistribuidora.com.br/produto/desinfetante-uso-geral-nature-5-litros-mgd/"}, {"categoria": "Limpeza - Galões", "codigo": "27", "descricao": "LIMPA ALUMINIO 5L", "embalagem": "GL", "link": "https://fbfdistribuidora.com.br/produto/limpa-aluminio-rosa-le-5-litros-mgd/"}, {"categoria": "Limpeza - Galões", "codigo": "33", "descricao": "CLORO GEL 5L", "embalagem": "GL", "link": "https://fbfdistribuidora.com.br/produto/limpador-clorado-max-gel-5-litros-mgd/"}, {"categoria": "Limpeza - Galões", "codigo": "583", "descricao": "REMOVEDOR PER 900ML LAV.", "embalagem": "FR", "link": ""}, {"categoria": "Limpeza - Galões", "codigo": "41", "descricao": "SABONETE LIQ. DOW 5L", "embalagem": "GL", "link": "https://fbfdistribuidora.com.br/produto/sabonete-liquido-dowex-le-5-litros-mgd/"}, {"categoria": "Limpeza - Galões", "codigo": "32", "descricao": "SABONETE LIQ. ERVA D. 5L", "embalagem": "GL", "link": "https://fbfdistribuidora.com.br/produto/sabonete-liquido-erva-doce-le-5-litros-mgd/"}, {"categoria": "Limpeza - Galões", "codigo": "1129", "descricao": "GRILL ALCALINO START 5L", "embalagem": "GL", "link": "https://fbfdistribuidora.com.br/produto/detergente-alcalino-startgrill-concentrado-5l-start/"}, {"categoria": "Limpeza - Galões", "codigo": "248", "descricao": "CERA INCOLOR 5L", "embalagem": "GL", "link": ""}, {"categoria": "Limpeza - Produtos", "codigo": "1063", "descricao": "DES CONCEN. AZULIM 140ML", "embalagem": "FR", "link": "https://fbfdistribuidora.com.br/produto/aromatizante-concentrado-lavanda-ou-marine-140ml-azulim/"}, {"categoria": "Limpeza - Produtos", "codigo": "923", "descricao": "DIFUSOR DE AROMA PIA 300ML", "embalagem": "FR", "link": ""}, {"categoria": "Limpeza - Produtos", "codigo": "972", "descricao": "LUSTRA-MOVEIS 200ML YAN", "embalagem": "FR", "link": "https://fbfdistribuidora.com.br/produto/lustra-moveis-200ml-yan/"}, {"categoria": "Limpeza - Produtos", "codigo": "930", "descricao": "GEL SANITARIO C/APLICADOR LAV.", "embalagem": "UND", "link": ""}, {"categoria": "Limpeza - Produtos", "codigo": "931", "descricao": "GEL SANITARIO C/APLICADOR MAR.", "embalagem": "UND", "link": ""}, {"categoria": "Limpeza - Produtos", "codigo": "235", "descricao": "PEDRA SANITARIA C/12", "embalagem": "PCT", "link": ""}, {"categoria": "Limpeza - Produtos", "codigo": "422", "descricao": "SABAO EM BARRA C/5", "embalagem": "PCT", "link": ""}, {"categoria": "Limpeza - Produtos", "codigo": "78", "descricao": "SABAO EM PO 800GR YAN", "embalagem": "PCT", "link": ""}, {"categoria": "Limpeza - Produtos", "codigo": "513", "descricao": "INSETICIDA AEROSOL BAYGON", "embalagem": "FR", "link": ""}, {"categoria": "Limpeza - Acessórios", "codigo": "216", "descricao": "AVENTAL DE VINIL", "embalagem": "UND", "link": ""}, {"categoria": "Limpeza - Acessórios", "codigo": "517", "descricao": "ESPONJA DUPLA FACE C/4", "embalagem": "PCT", "link": ""}, {"categoria": "Limpeza - Acessórios", "codigo": "423", "descricao": "LA DE ACO ASSOLAN C/8", "embalagem": "PCT", "link": ""}, {"categoria": "Limpeza - Acessórios", "codigo": "1180", "descricao": "ESPONJA YPE AZUL C/3", "embalagem": "PCT", "link": ""}, {"categoria": "Limpeza - Acessórios", "codigo": "357", "descricao": "FIBRACO SCOTCH 3M C/5", "embalagem": "PCT", "link": ""}, {"categoria": "Limpeza - Acessórios", "codigo": "145", "descricao": "MASCARA DESCARTAVEL C/50", "embalagem": "PCT", "link": ""}, {"categoria": "Limpeza - Acessórios", "codigo": "136", "descricao": "TOUCA TNT BRANCA C/100", "embalagem": "PCT", "link": ""}, {"categoria": "Limpeza - Acessórios", "codigo": "294", "descricao": "REDE PRETA - C/10", "embalagem": "PCT", "link": ""}, {"categoria": "Limpeza - Acessórios", "codigo": "1008", "descricao": "ASSENTO SANITARIO", "embalagem": "UND", "link": ""}, {"categoria": "Limpeza - Acessórios", "codigo": "571", "descricao": "BALDE 15L TOYPLAST ALCA PLASTICA", "embalagem": "UND", "link": ""}, {"categoria": "Limpeza - Acessórios", "codigo": "233", "descricao": "BORRIFADOR PEAD 500ML", "embalagem": "UND", "link": ""}, {"categoria": "Limpeza - Panos", "codigo": "166", "descricao": "SACO ALVEJADO XADREZ AZUL C/5", "embalagem": "PCT", "link": ""}, {"categoria": "Limpeza - Panos", "codigo": "1013", "descricao": "SACO ALVEJADO BRANCO C/10", "embalagem": "PCT", "link": ""}, {"categoria": "Limpeza - Panos", "codigo": "135", "descricao": "PANO MULTIUSO AZUL C/600", "embalagem": "RL", "link": ""}, {"categoria": "Limpeza - Luvas", "codigo": "147", "descricao": "SEM PO G - LUVA DE VINIL -  C/100", "embalagem": "CX", "link": ""}, {"categoria": "Limpeza - Luvas", "codigo": "149", "descricao": "SEM PO M - LUVA DE VINIL -  C/100", "embalagem": "CX", "link": ""}, {"categoria": "Limpeza - Luvas", "codigo": "804", "descricao": "SEM PO P - LUVA DE VINIL -  C/100", "embalagem": "CX", "link": ""}, {"categoria": "Limpeza - Luvas", "codigo": "582", "descricao": "LUVA AMARELA - G PAR", "embalagem": "PCT", "link": ""}, {"categoria": "Limpeza - Luvas", "codigo": "139", "descricao": "LUVA AMARELA - M PAR", "embalagem": "PCT", "link": ""}, {"categoria": "Limpeza", "codigo": "618", "descricao": "LUVA AMARELA - P PAR", "embalagem": "PCT", "link": ""}, {"categoria": "Escritório", "codigo": "744", "descricao": "BOBINA BRANCA CUPOM FIS C/15", "embalagem": "CX", "link": ""}, {"categoria": "Escritório", "codigo": "223", "descricao": "PAPEL SULFITE C/500", "embalagem": "PCT", "link": ""}, {"categoria": "Escritório", "codigo": "1480", "descricao": "CANETA DETECTORA CEDULAS FALSAS", "embalagem": "UND", "link": ""}, {"categoria": "Escritório", "codigo": "1158", "descricao": "CANITA AZUL TIPO BIC", "embalagem": "UND", "link": ""}, {"categoria": "Escritório", "codigo": "813", "descricao": "GRAMPO GALVANIZADO 26/6 C/5000", "embalagem": "CX", "link": ""}, {"categoria": "Escritório", "codigo": "816", "descricao": "MARCA TEXTO AMARELO", "embalagem": "UND", "link": ""}, {"categoria": "Escritório", "codigo": "1478", "descricao": "MARCA TEXTO ROSA", "embalagem": "UND", "link": ""}, {"categoria": "Escritório", "codigo": "1475", "descricao": "MARCA TEXTO VERDE", "embalagem": "UND", "link": ""}, {"categoria": "Escritório", "codigo": "817", "descricao": "REGUA PLASTICA 30CM", "embalagem": "UND", "link": ""}, {"categoria": "Escritório", "codigo": "1160", "descricao": "CADERNO CD 1MATERIA C/80FLS", "embalagem": "UND", "link": ""}, {"categoria": "Escritório", "codigo": "834", "descricao": "ELASTICO DINHEIRO MAMUTH C/600", "embalagem": "PCT", "link": ""}];
+            lojas = [{"codigo": "114", "nome": "RR - PADRE MADUREIRA"}, {"codigo": "2526", "nome": "RR - ZONA NORTE"}, {"codigo": "2527", "nome": "RR - ARMANDO PANUNZIO"}, {"codigo": "2528", "nome": "RR - LOJA EDEN"}, {"codigo": "3466", "nome": "RR - VOTORANTIM (CADI)"}, {"codigo": "4108", "nome": "RR - LOJA ITU (CADI)"}, {"codigo": "4115", "nome": "RR - INDAIADUBA"}];
+            
+            const lojaSelect = document.getElementById("loja");
+            lojas.forEach(l => {
+                const option = document.createElement("option");
+                option.value = l.codigo;
+                option.textContent = l.nome;
+                lojaSelect.appendChild(option);
+            });
+            
+            loadState();
+            render();
+        });
 
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
-        }
-
-        // Initialize on load
-        document.addEventListener("DOMContentLoaded", init);
-
-        // Update floating cart on page load
-        window.addEventListener("load", updateFloatingCart);
+        // Save on input
+        document.getElementById("comprador").addEventListener("input", saveState);
+        document.getElementById("extra").addEventListener("input", saveState);
     </script>
+
+    <!-- Footer with Version -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <span class="footer-text">Versão 1.0.0 • 21/04/26</span>
+        </div>
+    </footer>
+
 </body>
 </html>
